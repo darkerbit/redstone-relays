@@ -4,6 +4,7 @@ import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -52,7 +53,9 @@ public abstract class AbstractRelayBlock extends Block implements BlockEntityPro
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 
-
+    public boolean playSounds(BlockView world, BlockState state, BlockPos pos) {
+        return !(world.getBlockState(pos.down()).getMaterial() == Material.WOOL);
+    }
 
     @Override
     public boolean emitsRedstonePower(BlockState state) {

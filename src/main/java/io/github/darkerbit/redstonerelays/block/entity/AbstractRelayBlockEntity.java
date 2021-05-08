@@ -52,6 +52,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
 
     public void setPlayer(PlayerEntity player) {
         this.player = player.getUuidAsString();
+        markDirty();
     }
 
     public void unregister() {
@@ -59,6 +60,16 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
 
         RelayTriggerCallback.unregister(this);
         registered = false;
+    }
+
+    protected boolean playSounds() {
+        BlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+
+        if (block instanceof AbstractRelayBlock)
+            return ((AbstractRelayBlock) block).playSounds(world, state, pos);
+
+        return false;
     }
 
     protected void setTriggered(boolean triggered) {
