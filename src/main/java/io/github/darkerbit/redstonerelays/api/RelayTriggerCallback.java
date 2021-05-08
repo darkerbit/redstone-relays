@@ -1,37 +1,55 @@
 package io.github.darkerbit.redstonerelays.api;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * A callback triggered on press or release of a Redstone Relays trigger button.
+ * A callback triggered on trigger or release of a relay button.
  */
 public interface RelayTriggerCallback {
-    /**
-     * Event triggered on press of a trigger button.
-     */
-    Event<RelayTriggerCallback> TRIGGER_PRESSED = EventFactory.createArrayBacked(RelayTriggerCallback.class,
-            listeners -> (num, player) -> {
-                for (RelayTriggerCallback listener : listeners) {
-                    listener.trigger(num, player);
-                }
-            });
+    List<RelayTriggerCallback> callbacks = new ArrayList<>();
 
     /**
-     * Event triggered on release of a trigger button.
+     * Registers a new callback.
+     * @param callback The callback to register
      */
-    Event<RelayTriggerCallback> TRIGGER_RELEASED = EventFactory.createArrayBacked(RelayTriggerCallback.class,
-            listeners -> (num, player) -> {
-                for (RelayTriggerCallback listener : listeners) {
-                    listener.trigger(num, player);
-                }
-            });
+    static void register(RelayTriggerCallback callback) {
+        callbacks.add(callback);
+    }
 
     /**
-     * Callback triggered on press or release of a trigger button.
-     * @param num The number of the trigger that was pressed or released
-     * @param player The player who pressed or released the trigger
+     * Removes a callback.
+     * @param callback The callback to remove
      */
-    void trigger(int num, PlayerEntity player);
+    static void unregister(RelayTriggerCallback callback) {
+        callbacks.remove(callback);
+    }
+
+    static void trigger(int num, PlayerEntity player) {
+        for (RelayTriggerCallback callback : callbacks) {
+            callback.onTrigger(num, player);
+        }
+    }
+
+    static void release(int num, PlayerEntity player) {
+        for (RelayTriggerCallback callback : callbacks) {
+            callback.onRelease(num, player);
+        }
+    }
+
+    /**
+     * Called on trigger of a relay.
+     * @param num The number of the triggered relay
+     * @param player The player who triggered the relay
+     */
+    void onTrigger(int num, PlayerEntity player);
+
+    /**
+     * Called on release of a relay.
+     * @param num The number of the triggered relay
+     * @param player The player who triggered the relay
+     */
+    void onRelease(int num, PlayerEntity player);
 }
