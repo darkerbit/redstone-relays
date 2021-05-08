@@ -14,7 +14,8 @@ import net.minecraft.network.PacketByteBuf;
 import org.lwjgl.glfw.GLFW;
 
 public final class RedstoneRelaysClient implements ClientModInitializer {
-    private static final KeyBinding[] keyBindings = new KeyBinding[10];
+    private static final KeyBinding[] keyBindings = new KeyBinding[RedstoneRelays.KEY_COUNT];
+    private static final boolean[] pressed = new boolean[keyBindings.length];
 
     @Override
     public void onInitializeClient() {
@@ -36,12 +37,19 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
 
     private static void onEndClientTick(MinecraftClient client) {
         for (int i = 0; i < keyBindings.length; i++) {
-            while (keyBindings[i].wasPressed()) {
-                PacketByteBuf buf = PacketByteBufs.create();
+            PacketByteBuf buf = PacketByteBufs.create();
+
+            if (keyBindings[i].isPressed() && !pressed[i]) { // pressed
                 buf.writeInt(i);
 
                 ClientPlayNetworking.send(NetworkConstants.RELAY_TRIGGER_CHAN, buf);
+            } else if (!keyBindings[i].isPressed() && pressed[i]) { // released
+                buf.writeInt(-i);
+
+                ClientPlayNetworking.send(NetworkConstants.RELAY_TRIGGER_CHAN, buf);
             }
+
+            pressed[i] = keyBindings[i].isPressed();
         }
     }
 }
