@@ -1,9 +1,12 @@
 package io.github.darkerbit.redstonerelays;
 
+import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.block.Blocks;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.util.Identifier;
 
 public final class RedstoneRelays implements ModInitializer {
@@ -22,5 +25,8 @@ public final class RedstoneRelays implements ModInitializer {
 
         Blocks.register();
         BlockEntities.register();
+
+        ServerWorldEvents.UNLOAD.register(ChunkUnloadListener::impl_onWorldUnload);
+        ServerChunkEvents.CHUNK_UNLOAD.register(ChunkUnloadListener::impl_onChunkUnload);
     }
 }

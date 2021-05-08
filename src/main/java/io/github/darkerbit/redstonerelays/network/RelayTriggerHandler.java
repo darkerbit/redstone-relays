@@ -1,20 +1,14 @@
 package io.github.darkerbit.redstonerelays.network;
 
-import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class RelayTriggerHandler implements ServerPlayNetworking.PlayChannelHandler {
-    private static final Logger LOGGER = LogManager.getLogger(RedstoneRelays.NAME);
-
     @Override
     public void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         int triggeredRelay = buf.readInt();
@@ -24,28 +18,14 @@ public class RelayTriggerHandler implements ServerPlayNetworking.PlayChannelHand
         // schedule trigger events for server thread
         server.execute(() -> {
             if (pressed) {
-                RelayTriggerCallback.trigger(triggeredRelay, player);
+                RelayTriggerCallback.impl_trigger(triggeredRelay, player);
             } else {
-                RelayTriggerCallback.release((-triggeredRelay) - 1, player);
+                RelayTriggerCallback.impl_release((-triggeredRelay) - 1, player);
             }
         });
     }
 
     public static void register() {
         ServerPlayNetworking.registerGlobalReceiver(NetworkConstants.RELAY_TRIGGER_CHAN, new RelayTriggerHandler());
-
-        RelayTriggerCallback.register(new RelayLogger());
-    }
-
-    private static class RelayLogger implements RelayTriggerCallback {
-        @Override
-        public void onTrigger(int num, PlayerEntity player) {
-            LOGGER.info("Player {} triggered relay {}", player.getEntityName(), num);
-        }
-
-        @Override
-        public void onRelease(int num, PlayerEntity player) {
-            LOGGER.info("Player {} released relay {}", player.getEntityName(), num);
-        }
     }
 }

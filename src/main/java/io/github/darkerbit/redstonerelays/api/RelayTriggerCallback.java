@@ -27,13 +27,13 @@ public interface RelayTriggerCallback {
         callbacks.remove(callback);
     }
 
-    static void trigger(int num, PlayerEntity player) {
+    static void impl_trigger(int num, PlayerEntity player) {
         for (RelayTriggerCallback callback : callbacks) {
             callback.onTrigger(num, player);
         }
     }
 
-    static void release(int num, PlayerEntity player) {
+    static void impl_release(int num, PlayerEntity player) {
         for (RelayTriggerCallback callback : callbacks) {
             callback.onRelease(num, player);
         }
