@@ -1,6 +1,7 @@
 package io.github.darkerbit.redstonerelays.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -9,7 +10,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public abstract class AbstractRelayBlock extends Block {
+public abstract class AbstractRelayBlock extends Block implements BlockEntityProvider {
     public static final BooleanProperty TRIGGERED = BooleanProperty.of("triggered");
 
     public AbstractRelayBlock(Settings settings) {
