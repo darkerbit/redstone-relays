@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays;
 
+import io.github.darkerbit.redstonerelays.block.Blocks;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -17,5 +18,7 @@ public final class RedstoneRelays implements ModInitializer {
     @Override
     public void onInitialize() {
         RelayTriggerHandler.register();
+
+        Blocks.register();
     }
 }
