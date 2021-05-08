@@ -44,7 +44,7 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
 
                 ClientPlayNetworking.send(NetworkConstants.RELAY_TRIGGER_CHAN, buf);
             } else if (!keyBindings[i].isPressed() && pressed[i]) { // released
-                buf.writeInt(-i);
+                buf.writeInt((-i) - 1); // offset by -1 because -0 = 0
 
                 ClientPlayNetworking.send(NetworkConstants.RELAY_TRIGGER_CHAN, buf);
             }
