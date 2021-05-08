@@ -1,28 +1,28 @@
 package io.github.darkerbit.redstonerelays.block;
 
 import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public abstract class AbstractRelayBlock extends Block implements BlockEntityProvider {
+public abstract class AbstractRelayBlock extends HorizontalFacingBlock implements BlockEntityProvider {
     public static final BooleanProperty TRIGGERED = BooleanProperty.of("triggered");
 
     public AbstractRelayBlock(Settings settings) {
         super(settings);
 
-        setDefaultState(getStateManager().getDefaultState().with(TRIGGERED, false));
+        setDefaultState(getStateManager().getDefaultState()
+                .with(TRIGGERED, false).with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
@@ -38,6 +38,7 @@ public abstract class AbstractRelayBlock extends Block implements BlockEntityPro
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(TRIGGERED);
+        builder.add(Properties.HORIZONTAL_FACING);
     }
 
     @Override
@@ -64,7 +65,12 @@ public abstract class AbstractRelayBlock extends Block implements BlockEntityPro
 
     @Override
     public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return (Boolean) state.get(TRIGGERED) ? 15 : 0;
+        return state.get(TRIGGERED) ? 15 : 0;
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing());
     }
 
     public void setTriggered(World world, BlockState state, BlockPos pos, boolean triggered) {
