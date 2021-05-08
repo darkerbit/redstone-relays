@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "redstonerelays",
   "version": "${version}",
 
-  "name": "Mod Template",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Redstone Relays",
+  "description": "Garry's Mod-style redstone components that activate on a keypress from the keyboard.",
   "authors": [
     "darkerbit"
   ],
   "contact": {
-    "sources": "https://github.com/darkerbit/mod-template"
+    "sources": "https://github.com/darkerbit/redstone-relays"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/redstonerelays/icon.png",
 
   "environment": "*",
   "entrypoints": {
   },
   "mixins": [
-    "modid.mixins.json"
+    "redstonerelays.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.4",
