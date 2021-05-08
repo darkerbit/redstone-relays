@@ -17,6 +17,12 @@
 
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "io.github.darkerbit.redstonerelays.RedstoneRelays"
+    ],
+    "client": [
+      "io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient"
+    ]
   },
   "mixins": [
     "redstonerelays.mixins.json"
