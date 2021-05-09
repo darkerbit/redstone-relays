@@ -12,11 +12,14 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public abstract class AbstractRelayBlock extends HorizontalFacingBlock implements BlockEntityProvider {
     public static final BooleanProperty TRIGGERED = BooleanProperty.of("triggered");
+
+    private static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
 
     public AbstractRelayBlock(Settings settings) {
         super(settings);
@@ -65,12 +68,17 @@ public abstract class AbstractRelayBlock extends HorizontalFacingBlock implement
 
     @Override
     public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(TRIGGERED) ? 15 : 0;
+        return state.get(TRIGGERED) && direction != Direction.DOWN ? 15 : 0;
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing());
+        return this.getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
     }
 
     public void setTriggered(World world, BlockState state, BlockPos pos, boolean triggered) {
