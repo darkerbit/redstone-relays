@@ -11,7 +11,7 @@ public class PushRelayBlockEntity extends AbstractRelayBlockEntity {
 
     @Override
     public void onTrigger(int num, PlayerEntity player) {
-        if (num == number && player.getUuidAsString().equals(this.player)) {
+        if (!triggered && num == number && player.getUuidAsString().equals(this.player) && playerInRange(player)) {
             setTriggered(true);
 
             if (!playSounds()) return;
@@ -29,7 +29,7 @@ public class PushRelayBlockEntity extends AbstractRelayBlockEntity {
 
     @Override
     public void onRelease(int num, PlayerEntity player) {
-        if (num == number && player.getUuidAsString().equals(this.player)) {
+        if (triggered && num == number && player.getUuidAsString().equals(this.player)) {
             setTriggered(false);
 
             if (!playSounds()) return;

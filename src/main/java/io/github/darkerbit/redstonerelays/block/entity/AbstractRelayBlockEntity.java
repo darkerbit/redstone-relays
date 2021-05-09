@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
+import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
@@ -71,6 +72,12 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
 
         RelayTriggerCallback.unregister(this);
         registered = false;
+    }
+
+    protected boolean playerInRange(PlayerEntity player) {
+        int range = world.getGameRules().getInt(RedstoneRelays.RELAY_RANGE_RULE);
+
+        return pos.getSquaredDistance(player.getPos(), false) < range * range;
     }
 
     protected boolean playSounds() {

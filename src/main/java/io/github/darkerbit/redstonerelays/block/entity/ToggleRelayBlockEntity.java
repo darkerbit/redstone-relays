@@ -11,7 +11,7 @@ public class ToggleRelayBlockEntity extends AbstractRelayBlockEntity {
 
     @Override
     public void onTrigger(int num, PlayerEntity player) {
-        if (num == number && player.getUuidAsString().equals(this.player)) {
+        if (num == number && player.getUuidAsString().equals(this.player) && playerInRange(player)) {
             setTriggered(!triggered);
 
             if (!playSounds()) return;
