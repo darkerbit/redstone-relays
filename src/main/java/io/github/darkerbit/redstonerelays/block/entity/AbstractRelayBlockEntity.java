@@ -10,6 +10,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public abstract class AbstractRelayBlockEntity extends BlockEntity implements RelayTriggerCallback, ChunkUnloadListener {
     protected boolean triggered = false;
@@ -17,12 +19,21 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
 
     protected String player = "";
 
-    private boolean registered = true;
+    private boolean registered = false;
 
     public AbstractRelayBlockEntity(BlockEntityType<?> type) {
         super(type);
+    }
 
-        RelayTriggerCallback.register(this);
+    @Override
+    public void setLocation(World world, BlockPos pos) {
+        super.setLocation(world, pos);
+
+        if (!registered && !world.isClient) {
+            RelayTriggerCallback.register(this);
+
+            registered = true;
+        }
     }
 
     @Override
