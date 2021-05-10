@@ -1,0 +1,35 @@
+{
+  "variants": {
+    "facing=north,triggered=false": {
+      "model": "redstonerelays:block/toggle_relay_off"
+    },
+    "facing=east,triggered=false": {
+      "model": "redstonerelays:block/toggle_relay_off",
+      "y": 90
+    },
+    "facing=south,triggered=false": {
+      "model": "redstonerelays:block/toggle_relay_off",
+      "y": 180
+    },
+    "facing=west,triggered=false": {
+      "model": "redstonerelays:block/toggle_relay_off",
+      "y": 270
+    },
+
+    "facing=north,triggered=true": {
+      "model": "redstonerelays:block/toggle_relay_on"
+    },
+    "facing=east,triggered=true": {
+      "model": "redstonerelays:block/toggle_relay_on",
+      "y": 90
+    },
+    "facing=south,triggered=true": {
+      "model": "redstonerelays:block/toggle_relay_on",
+      "y": 180
+    },
+    "facing=west,triggered=true": {
+      "model": "redstonerelays:block/toggle_relay_on",
+      "y": 270
+    }
+  }
+}

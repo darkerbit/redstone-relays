@@ -23,6 +23,8 @@ public final class RedstoneRelays implements ModInitializer {
             GameRules.Category.UPDATES,
             GameRuleFactory.createIntRule(32, 0, 256));
 
+    public static final Identifier RELAY_TRIGGER_CHAN = identifier("relay_trigger");
+
     public static Identifier identifier(String name) {
         return new Identifier(MOD_ID, name);
     }

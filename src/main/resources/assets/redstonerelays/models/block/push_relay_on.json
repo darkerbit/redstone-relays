@@ -4,7 +4,7 @@
 	"textures": {
 		"0": "block/daylight_detector_side",
 		"1": "redstonerelays:block/push_relay_top_on",
-		"2": "redstonerelays:block/push_relay_misc_on",
+		"2": "redstonerelays:block/relay_misc_on",
 		"particle": "block/daylight_detector_side"
 	},
 	"elements": [

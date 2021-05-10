@@ -1,7 +1,6 @@
 package io.github.darkerbit.redstonerelays.client;
 
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
-import io.github.darkerbit.redstonerelays.network.NetworkConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -42,11 +41,11 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
             if (keyBindings[i].isPressed() && !pressed[i]) { // pressed
                 buf.writeInt(i);
 
-                ClientPlayNetworking.send(NetworkConstants.RELAY_TRIGGER_CHAN, buf);
+                ClientPlayNetworking.send(RedstoneRelays.RELAY_TRIGGER_CHAN, buf);
             } else if (!keyBindings[i].isPressed() && pressed[i]) { // released
                 buf.writeInt((-i) - 1); // offset by -1 because -0 = 0
 
-                ClientPlayNetworking.send(NetworkConstants.RELAY_TRIGGER_CHAN, buf);
+                ClientPlayNetworking.send(RedstoneRelays.RELAY_TRIGGER_CHAN, buf);
             }
 
             pressed[i] = keyBindings[i].isPressed();

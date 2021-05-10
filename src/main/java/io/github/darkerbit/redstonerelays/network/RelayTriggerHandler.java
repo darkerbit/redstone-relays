@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.network;
 
+import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -26,6 +27,6 @@ public class RelayTriggerHandler implements ServerPlayNetworking.PlayChannelHand
     }
 
     public static void register() {
-        ServerPlayNetworking.registerGlobalReceiver(NetworkConstants.RELAY_TRIGGER_CHAN, new RelayTriggerHandler());
+        ServerPlayNetworking.registerGlobalReceiver(RedstoneRelays.RELAY_TRIGGER_CHAN, new RelayTriggerHandler());
     }
 }
