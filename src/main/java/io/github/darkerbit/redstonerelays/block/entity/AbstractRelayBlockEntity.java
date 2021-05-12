@@ -17,6 +17,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -78,16 +79,14 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         buf.writeInt(number);
     }
 
-    protected abstract String getTranslationKey();
-
-    @Override
-    public Text getDisplayName() {
-        return RedstoneRelays.translate(getTranslationKey(), this.playerName);
-    }
-
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return null;
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
 
     // Runs on the logical server only
@@ -118,13 +117,17 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     protected boolean playerInRange(PlayerEntity player) {
+        // check if the player is in the same dimension
+        if (player.world.getRegistryKey() != world.getRegistryKey())
+            return false;
+
         int range = world.getGameRules().getInt(RedstoneRelays.RELAY_RANGE_RULE);
 
         return pos.getSquaredDistance(player.getPos(), false) < range * range;
     }
 
     protected boolean playSounds() {
-        BlockState state = world.getBlockState(pos);
+        BlockState state = getCachedState();
         Block block = state.getBlock();
 
         if (block instanceof AbstractRelayBlock)
@@ -134,7 +137,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     protected void setTriggered(boolean triggered) {
-        BlockState state = world.getBlockState(pos);
+        BlockState state = getCachedState();
         Block block = state.getBlock();
 
         if (block instanceof AbstractRelayBlock)

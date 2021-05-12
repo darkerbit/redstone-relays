@@ -32,9 +32,4 @@ public class ToggleRelayBlockEntity extends AbstractRelayBlockEntity {
 
     @Override
     public void onRelease(int num, PlayerEntity player) {}
-
-    @Override
-    protected String getTranslationKey() {
-        return RedstoneRelays.translationKey("displayname", "toggle_relay");
-    }
 }

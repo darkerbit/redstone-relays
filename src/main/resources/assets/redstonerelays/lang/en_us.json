@@ -15,8 +15,5 @@
 
   "category.redstonerelays.triggers": "Relay Triggers",
 
-  "error.redstonerelays.wrong_player": "This relay is owned by %s",
-
-  "displayname.redstonerelays.push_relay": "%s's Push Relay",
-  "displayname.redstonerelays.toggle_relay": "%s's Toggle Relay"
+  "error.redstonerelays.wrong_player": "This relay is owned by %s"
 }
