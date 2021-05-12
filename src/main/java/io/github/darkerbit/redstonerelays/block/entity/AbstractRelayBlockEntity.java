@@ -4,6 +4,7 @@ import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
+import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,6 +32,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
 
     private boolean registered = false;
 
+    public static final int RELAY_NUMBER_PROP = 0;
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -90,7 +92,10 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return null;
+        if (!this.player.equals(player.getUuidAsString()))
+            return null;
+
+        return new RelayScreenHandler(syncId, inv, this, propertyDelegate);
     }
 
     @Override
