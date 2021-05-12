@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
+import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -31,4 +32,9 @@ public class ToggleRelayBlockEntity extends AbstractRelayBlockEntity {
 
     @Override
     public void onRelease(int num, PlayerEntity player) {}
+
+    @Override
+    protected String getTranslationKey() {
+        return RedstoneRelays.translationKey("displayname", "toggle_relay");
+    }
 }

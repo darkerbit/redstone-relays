@@ -4,21 +4,30 @@ import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class AbstractRelayBlockEntity extends BlockEntity implements RelayTriggerCallback, ChunkUnloadListener {
+public abstract class AbstractRelayBlockEntity extends BlockEntity
+        implements RelayTriggerCallback, ChunkUnloadListener, ExtendedScreenHandlerFactory {
+
     protected boolean triggered = false;
     protected int number = 0;
 
     protected String player = "";
+    protected String playerName = "";
 
     private boolean registered = false;
 
@@ -44,6 +53,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
         triggered = tag.getBoolean("triggered");
         number = tag.getInt("number");
         player = tag.getString("player");
+        playerName = tag.getString("playerName");
     }
 
     @Override
@@ -53,6 +63,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
         tag.putBoolean("triggered", triggered);
         tag.putInt("number", number);
         tag.putString("player", player);
+        tag.putString("playerName", playerName);
 
         return tag;
     }
@@ -62,8 +73,40 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity implements Re
         unregister();
     }
 
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeInt(number);
+    }
+
+    protected abstract String getTranslationKey();
+
+    @Override
+    public Text getDisplayName() {
+        return RedstoneRelays.translate(getTranslationKey(), this.playerName);
+    }
+
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        return null;
+    }
+
+    // Runs on the logical server only
+    public void onUse(PlayerEntity player) {
+        if (this.player.isEmpty())
+            setPlayer(player);
+
+        if (!this.player.equals(player.getUuidAsString())) {
+            player.sendMessage(RedstoneRelays.translate("error", "wrong_player", this.playerName), true);
+            return;
+        }
+
+        player.openHandledScreen(this);
+    }
+
     public void setPlayer(PlayerEntity player) {
         this.player = player.getUuidAsString();
+        this.playerName = player.getEntityName();
+
         markDirty();
     }
 

@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
@@ -23,10 +24,19 @@ public final class RedstoneRelays implements ModInitializer {
             GameRules.Category.UPDATES,
             GameRuleFactory.createIntRule(32, 0, 256));
 
-    public static final Identifier RELAY_TRIGGER_CHAN = identifier("relay_trigger");
-
     public static Identifier identifier(String name) {
         return new Identifier(MOD_ID, name);
+    }
+
+    public static String translationKey(String category, String name) {
+        return category + "." + MOD_ID + "." + name;
+    }
+
+    public static TranslatableText translate(String category, String name, Object... args) {
+        return new TranslatableText(
+                translationKey(category, name),
+                args
+        );
     }
 
     @Override

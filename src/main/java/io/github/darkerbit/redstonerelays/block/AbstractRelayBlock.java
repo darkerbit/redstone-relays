@@ -7,9 +7,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -55,6 +59,30 @@ public abstract class AbstractRelayBlock extends HorizontalFacingBlock implement
         }
 
         super.onStateReplaced(state, world, pos, newState, moved);
+    }
+
+    @Override
+    public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (blockEntity instanceof NamedScreenHandlerFactory)
+            return (NamedScreenHandlerFactory) blockEntity;
+
+        return null;
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (blockEntity instanceof AbstractRelayBlockEntity) {
+            if (!world.isClient)
+                ((AbstractRelayBlockEntity) blockEntity).onUse(player);
+
+            return ActionResult.SUCCESS;
+        }
+
+        return ActionResult.PASS;
     }
 
     public boolean playSounds(BlockView world, BlockState state, BlockPos pos) {

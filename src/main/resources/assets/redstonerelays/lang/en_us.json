@@ -1,0 +1,22 @@
+{
+  "block.redstonerelays.push_relay": "Push Relay",
+  "block.redstonerelays.toggle_relay": "Toggle Relay",
+
+  "key.redstonerelays.relay_0": "Relay 0",
+  "key.redstonerelays.relay_1": "Relay 1",
+  "key.redstonerelays.relay_2": "Relay 2",
+  "key.redstonerelays.relay_3": "Relay 3",
+  "key.redstonerelays.relay_4": "Relay 4",
+  "key.redstonerelays.relay_5": "Relay 5",
+  "key.redstonerelays.relay_6": "Relay 6",
+  "key.redstonerelays.relay_7": "Relay 7",
+  "key.redstonerelays.relay_8": "Relay 8",
+  "key.redstonerelays.relay_9": "Relay 9",
+
+  "category.redstonerelays.triggers": "Relay Triggers",
+
+  "error.redstonerelays.wrong_player": "This relay is owned by %s",
+
+  "displayname.redstonerelays.push_relay": "%s's Push Relay",
+  "displayname.redstonerelays.toggle_relay": "%s's Toggle Relay"
+}

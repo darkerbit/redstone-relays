@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
+import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -43,5 +44,10 @@ public class PushRelayBlockEntity extends AbstractRelayBlockEntity {
                     1.0f
             );
         }
+    }
+
+    @Override
+    protected String getTranslationKey() {
+        return RedstoneRelays.translationKey("displayname", "push_relay");
     }
 }
