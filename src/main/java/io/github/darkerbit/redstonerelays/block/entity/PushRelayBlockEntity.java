@@ -1,10 +1,8 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
-import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 
 public class PushRelayBlockEntity extends AbstractRelayBlockEntity {
     public PushRelayBlockEntity() {

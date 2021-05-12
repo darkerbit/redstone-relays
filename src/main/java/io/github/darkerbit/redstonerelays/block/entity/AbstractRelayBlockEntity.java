@@ -4,7 +4,6 @@ import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -12,9 +11,9 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -22,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class AbstractRelayBlockEntity extends BlockEntity
-        implements RelayTriggerCallback, ChunkUnloadListener, ExtendedScreenHandlerFactory {
+        implements RelayTriggerCallback, ChunkUnloadListener, NamedScreenHandlerFactory {
 
     protected boolean triggered = false;
     protected int number = 0;
@@ -31,6 +30,21 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     protected String playerName = "";
 
     private boolean registered = false;
+
+    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            return number;
+        }
+
+        @Override
+        public void set(int index, int value) {}
+
+        @Override
+        public int size() {
+            return 1;
+        }
+    };
 
     public AbstractRelayBlockEntity(BlockEntityType<?> type) {
         super(type);
@@ -75,11 +89,6 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeInt(number);
-    }
-
-    @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return null;
     }
@@ -100,6 +109,13 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         }
 
         player.openHandledScreen(this);
+    }
+
+    public void setNumber(PlayerEntity player, int number) {
+        if (this.player.equals(player.getUuidAsString())) {
+            this.number = number;
+            markDirty();
+        }
     }
 
     public void setPlayer(PlayerEntity player) {
