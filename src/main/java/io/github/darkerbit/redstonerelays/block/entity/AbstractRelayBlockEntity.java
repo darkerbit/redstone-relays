@@ -16,6 +16,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +30,8 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
 
     protected String player = "";
     protected String playerName = "";
+
+    protected Text customName;
 
     private boolean registered = false;
 
@@ -71,6 +74,10 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         number = tag.getInt("number");
         player = tag.getString("player");
         playerName = tag.getString("playerName");
+
+        if (tag.contains("customName")) {
+            customName = Text.Serializer.fromJson(tag.getString("customName"));
+        }
     }
 
     @Override
@@ -81,6 +88,9 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         tag.putInt("number", number);
         tag.putString("player", player);
         tag.putString("playerName", playerName);
+
+        if (customName != null)
+            tag.putString("customName", Text.Serializer.toJson(customName));
 
         return tag;
     }
@@ -100,7 +110,9 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
 
     @Override
     public Text getDisplayName() {
-        return new TranslatableText(getCachedState().getBlock().getTranslationKey());
+        return this.customName != null
+                ? new LiteralText(customName.asTruncatedString(25))
+                : new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
 
     // Runs on the logical server only
@@ -114,6 +126,11 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         }
 
         player.openHandledScreen(this);
+    }
+
+    public void setCustomName(Text customName) {
+        this.customName = customName;
+        markDirty();
     }
 
     public void setNumber(PlayerEntity player, int number) {

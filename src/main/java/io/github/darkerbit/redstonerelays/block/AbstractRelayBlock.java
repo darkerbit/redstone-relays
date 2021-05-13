@@ -34,11 +34,16 @@ public abstract class AbstractRelayBlock extends HorizontalFacingBlock implement
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        if (placer instanceof PlayerEntity) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
 
+        if (placer instanceof PlayerEntity) {
             if (blockEntity instanceof AbstractRelayBlockEntity)
                 ((AbstractRelayBlockEntity) blockEntity).setPlayer((PlayerEntity) placer);
+        }
+
+        if (itemStack.hasCustomName()) {
+            if (blockEntity instanceof AbstractRelayBlockEntity)
+                ((AbstractRelayBlockEntity) blockEntity).setCustomName(itemStack.getName());
         }
     }
 
