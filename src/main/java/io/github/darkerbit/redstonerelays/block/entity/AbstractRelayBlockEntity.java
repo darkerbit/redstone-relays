@@ -39,7 +39,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            return number;
+            return AbstractRelayBlockEntity.this.number;
         }
 
         @Override
@@ -133,11 +133,15 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         markDirty();
     }
 
-    public void setNumber(PlayerEntity player, int number) {
-        if (this.player.equals(player.getUuidAsString())) {
+    public boolean setNumber(PlayerEntity player, int number) {
+        if (this.player.equals(player.getUuidAsString()) && number != this.number) {
             this.number = number;
             markDirty();
+
+            return true;
         }
+
+        return false;
     }
 
     public void setPlayer(PlayerEntity player) {

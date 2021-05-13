@@ -49,4 +49,9 @@ public class RelayScreenHandler extends ScreenHandler {
     public boolean canUse(PlayerEntity player) {
         return true; // TODO: Add range calculation
     }
+
+    @Override
+    public boolean onButtonClick(PlayerEntity player, int id) {
+        return blockEntity.setNumber(player, id);
+    }
 }
