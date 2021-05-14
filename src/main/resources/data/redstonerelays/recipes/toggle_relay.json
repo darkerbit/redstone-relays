@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":[
+    "GBG",
+    "QRQ",
+    "SSS"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "item": "minecraft:lever"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "R": {
+      "item": "minecraft:comparator"
+    },
+    "S": {
+      "tag": "minecraft:slabs"
+    }
+  },
+  "result": {
+    "item": "redstonerelays:toggle_relay",
+    "count": 1
+  }
+}

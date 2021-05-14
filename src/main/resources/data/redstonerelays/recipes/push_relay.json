@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":[
+    "GBG",
+    "QRQ",
+    "SSS"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "tag": "minecraft:buttons"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "S": {
+      "tag": "minecraft:slabs"
+    }
+  },
+  "result": {
+    "item": "redstonerelays:push_relay",
+    "count": 1
+  }
+}
