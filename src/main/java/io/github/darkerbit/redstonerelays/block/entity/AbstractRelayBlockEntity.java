@@ -5,6 +5,7 @@ import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -23,7 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class AbstractRelayBlockEntity extends BlockEntity
-        implements RelayTriggerCallback, ChunkUnloadListener, NamedScreenHandlerFactory {
+        implements RelayTriggerCallback, ChunkUnloadListener, NamedScreenHandlerFactory, BlockEntityClientSerializable {
 
     protected boolean triggered = false;
     protected int number = 0;
@@ -39,7 +41,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            return AbstractRelayBlockEntity.this.number;
+            return number;
         }
 
         @Override
@@ -96,6 +98,18 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     @Override
+    public void fromClientTag(CompoundTag tag) {
+        this.number = tag.getInt("number");
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag tag) {
+        tag.putInt("number", number);
+
+        return tag;
+    }
+
+    @Override
     public void onChunkUnload(ServerWorld world) {
         unregister();
     }
@@ -105,13 +119,13 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         if (!this.player.equals(player.getUuidAsString()))
             return null;
 
-        return new RelayScreenHandler(syncId, inv, this, propertyDelegate);
+        return new RelayScreenHandler(syncId, inv, this, propertyDelegate, ScreenHandlerContext.create(world, pos));
     }
 
     @Override
     public Text getDisplayName() {
         return this.customName != null
-                ? new LiteralText(customName.asTruncatedString(25))
+                ? new LiteralText(customName.asTruncatedString(16))
                 : new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
 
@@ -136,7 +150,9 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     public boolean setNumber(PlayerEntity player, int number) {
         if (this.player.equals(player.getUuidAsString()) && number != this.number) {
             this.number = number;
+
             markDirty();
+            sync();
 
             return true;
         }

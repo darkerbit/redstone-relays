@@ -30,7 +30,14 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         super(handler, inventory, title);
 
         this.handler = (RelayScreenHandler) handler;
+    }
 
+    @Override
+    protected void init() {
+        this.backgroundWidth = 114;
+        this.backgroundHeight = 104;
+
+        super.init();
         setupButtons();
     }
 
@@ -82,10 +89,16 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
     }
 
     @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        renderBackground(matrices);
+        super.render(matrices, mouseX, mouseY, delta);
+    }
+
+    @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         this.client.getTextureManager().bindTexture(TEXTURE);
 
-        this.drawTexture(matrices, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        this.drawTexture(matrices, x, y - 10, 0, 0, this.backgroundWidth, this.backgroundHeight + 10);
     }
 
     @Override
@@ -97,7 +110,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
             setupButtons();
         }
 
-        textRenderer.draw(matrices, title, titleX, titleY, 4210752);
+        textRenderer.draw(matrices, title, titleX, titleY - 10, 4210752);
 
         for (ButtonWidget button : buttonWidgets) {
             button.render(matrices, mouseX - x, mouseY - y, 0.0f);
