@@ -4,11 +4,12 @@
   "version": "${version}",
 
   "name": "Redstone Relays",
-  "description": "Garry's Mod-style redstone components that activate on a keypress from the keyboard.",
+  "description": "Garry's Mod-style Redstone components that activate on a keypress from the keyboard.",
   "authors": [
     "darkerbit"
   ],
   "contact": {
+    "homepage": "https://modrinth.com/mod/redstone-relays",
     "sources": "https://github.com/darkerbit/redstone-relays"
   },
 
