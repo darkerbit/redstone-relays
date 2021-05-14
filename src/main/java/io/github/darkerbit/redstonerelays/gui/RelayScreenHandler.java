@@ -47,7 +47,7 @@ public class RelayScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         // TODO: Add range calculation
-        return context.run(
+        return context.get(
                 (world, pos) -> world.getBlockState(pos).getBlock() instanceof AbstractRelayBlock,
                 true
         );
