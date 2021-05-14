@@ -18,7 +18,6 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
@@ -125,7 +124,7 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     @Override
     public Text getDisplayName() {
         return this.customName != null
-                ? new LiteralText(customName.asTruncatedString(16))
+                ? this.customName
                 : new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
 
@@ -158,6 +157,10 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         }
 
         return false;
+    }
+
+    public int getNumber() {
+        return this.number;
     }
 
     public void setPlayer(PlayerEntity player) {

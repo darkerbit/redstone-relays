@@ -3,8 +3,6 @@ package io.github.darkerbit.redstonerelays.gui;
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

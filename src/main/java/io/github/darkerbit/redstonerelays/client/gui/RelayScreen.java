@@ -1,6 +1,7 @@
 package io.github.darkerbit.redstonerelays.client.gui;
 
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
+import io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -41,41 +42,35 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         setupButtons();
     }
 
-    private void setupButtons() {
+    private void makeButton(int button, int x, int y) {
         int startX = backgroundWidth / 2 - 3 * BUTTON_WIDTH / 2;
         int startY = backgroundHeight / 2 - 4 * BUTTON_HEIGHT / 2;
 
+        buttonWidgets[button] = new ButtonWidget(
+                startX + x * BUTTON_WIDTH + 1 + (y < 0 ? (int) (0.5 * BUTTON_WIDTH) : 0),
+                startY + (2 - y) * BUTTON_HEIGHT + 1,
+                (y < 0 ? 2 : 1) * BUTTON_WIDTH - 2, BUTTON_HEIGHT - 2,
+                new LiteralText(textRenderer.trimToWidth(RedstoneRelaysClient.getKeybindName(button), BUTTON_WIDTH - 4).getString()),
+                buttonWidget -> {
+                    client.interactionManager.clickButton(handler.syncId, button);
+                }
+        );
+
+        if (button == pressed) {
+            buttonWidgets[button].active = false;
+        }
+    }
+
+    private void setupButtons() {
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 3; i++) {
                 int button_i = j * 3 + i + 1;
 
-                buttonWidgets[button_i] = new ButtonWidget(
-                        startX + i * BUTTON_WIDTH + 1,
-                        startY + (2 - j) * BUTTON_HEIGHT + 1,
-                        BUTTON_WIDTH - 2, BUTTON_HEIGHT - 2,
-                        new LiteralText(Integer.toString(button_i)),
-                        button -> {
-                            client.interactionManager.clickButton(handler.syncId, button_i);
-                        }
-                );
-
-                if (button_i == pressed) {
-                    buttonWidgets[button_i].active = false;
-                }
+                makeButton(button_i, i, j);
             }
         }
 
-        buttonWidgets[0] = new ButtonWidget(
-                startX + BUTTON_WIDTH / 2 + 1, startY + 3 * BUTTON_HEIGHT + 1,
-                BUTTON_WIDTH * 2 - 2, BUTTON_HEIGHT - 2,
-                new LiteralText("0"),
-                button -> {
-                    client.interactionManager.clickButton(handler.syncId, 0);
-                }
-        );
-
-        if (pressed == 0)
-            buttonWidgets[0].active = false;
+        makeButton(0, 0, -1);
     }
 
     @Override
@@ -110,7 +105,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
             setupButtons();
         }
 
-        textRenderer.draw(matrices, title, titleX, titleY - 10, 4210752);
+        textRenderer.draw(matrices, textRenderer.trimToWidth(title, backgroundWidth - 2 * titleX).getString(), titleX, titleY - 10, 4210752);
 
         for (ButtonWidget button : buttonWidgets) {
             button.render(matrices, mouseX - x, mouseY - y, 0.0f);
