@@ -6,7 +6,6 @@ import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -52,13 +51,13 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         }
     };
 
-    public AbstractRelayBlockEntity(BlockEntityType<?> type) {
-        super(type);
+    public AbstractRelayBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Override
-    public void setLocation(World world, BlockPos pos) {
-        super.setLocation(world, pos);
+    public void setWorld(World world) {
+        super.setWorld(world);
 
         if (!registered && !world.isClient) {
             RelayTriggerCallback.register(this);
@@ -68,8 +67,8 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     @Override
-    public void readNbt(BlockState state, NbtCompound tag) {
-        super.readNbt(state, tag);
+    public void readNbt(NbtCompound tag) {
+        super.readNbt(tag);
 
         triggered = tag.getBoolean("triggered");
         number = tag.getInt("number");
@@ -189,20 +188,18 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
 
     protected boolean playSounds() {
         BlockState state = getCachedState();
-        Block block = state.getBlock();
 
-        if (block instanceof AbstractRelayBlock)
-            return ((AbstractRelayBlock) block).playSounds(world, state, pos);
+        if (state.getBlock() instanceof AbstractRelayBlock relayBlock)
+            return relayBlock.playSounds(world, state, pos);
 
         return false;
     }
 
     protected void setTriggered(boolean triggered) {
         BlockState state = getCachedState();
-        Block block = state.getBlock();
 
-        if (block instanceof AbstractRelayBlock)
-            ((AbstractRelayBlock) block).setTriggered(world, state, pos, triggered);
+        if (state.getBlock() instanceof AbstractRelayBlock relayBlock)
+            relayBlock.setTriggered(world, state, pos, triggered);
 
         this.triggered = triggered;
         markDirty();

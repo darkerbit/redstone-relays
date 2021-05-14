@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
@@ -7,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
@@ -91,7 +93,9 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        this.client.getTextureManager().bindTexture(TEXTURE);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         this.drawTexture(matrices, x, y - 10, 0, 0, this.backgroundWidth, this.backgroundHeight + 10);
     }

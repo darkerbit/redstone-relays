@@ -2,23 +2,24 @@ package io.github.darkerbit.redstonerelays.client.render;
 
 import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
 import io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Quaternion;
 
-public class RelayBlockEntityRenderer extends BlockEntityRenderer<AbstractRelayBlockEntity> {
+public class RelayBlockEntityRenderer<T extends AbstractRelayBlockEntity> implements BlockEntityRenderer<T> {
     private static final float FACTOR = -1.0f/48.0f;
     private static final double VERTICAL = 6.0d/16.0d;
 
     private static final float PANEL_WIDTH = 1.0f / -FACTOR;
     private static final float PANEL_HEIGHT = (float) VERTICAL / -FACTOR;
 
-    public RelayBlockEntityRenderer(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    private final TextRenderer textRenderer;
+
+    private RelayBlockEntityRenderer(TextRenderer textRenderer) {
+        this.textRenderer = textRenderer;
     }
 
     private void translate(MatrixStack matrices, int facing) {
@@ -51,8 +52,7 @@ public class RelayBlockEntityRenderer extends BlockEntityRenderer<AbstractRelayB
     }
 
     @Override
-    public void render(AbstractRelayBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+    public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         String controlName = textRenderer.trimToWidth(RedstoneRelaysClient.getKeybindName(entity.getNumber()), (int) PANEL_WIDTH).getString();
 
         for (int i = 0; i < 4; i++) {
@@ -63,5 +63,9 @@ public class RelayBlockEntityRenderer extends BlockEntityRenderer<AbstractRelayB
 
             matrices.pop();
         }
+    }
+
+    public static <T extends AbstractRelayBlockEntity> BlockEntityRenderer<T> create(BlockEntityRendererFactory.Context ctx) {
+        return new RelayBlockEntityRenderer<T>(ctx.getTextRenderer());
     }
 }

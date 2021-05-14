@@ -1,6 +1,7 @@
 package io.github.darkerbit.redstonerelays;
 
 import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
+import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.Blocks;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
@@ -46,7 +47,10 @@ public final class RedstoneRelays implements ModInitializer {
         Blocks.register();
         BlockEntities.register();
 
-        ServerWorldEvents.UNLOAD.register(ChunkUnloadListener::impl_onWorldUnload);
+        ServerWorldEvents.UNLOAD.register((server, world) -> {
+            RelayTriggerCallback.callbacks.clear();
+        });
+
         ServerChunkEvents.CHUNK_UNLOAD.register(ChunkUnloadListener::impl_onChunkUnload);
     }
 }

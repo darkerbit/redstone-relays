@@ -37,8 +37,8 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
 
         ScreenRegistry.register(RelayScreenHandler.RELAY_SCREEN_HANDLER, RelayScreen::new);
 
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PUSH_RELAY_ENTITY, RelayBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.TOGGLE_RELAY_ENTITY, RelayBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PUSH_RELAY_ENTITY, RelayBlockEntityRenderer::create);
+        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.TOGGLE_RELAY_ENTITY, RelayBlockEntityRenderer::create);
     }
 
     public static Text getKeybindName(int number) {

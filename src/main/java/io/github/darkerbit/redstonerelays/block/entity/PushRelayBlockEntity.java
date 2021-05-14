@@ -1,12 +1,14 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 
 public class PushRelayBlockEntity extends AbstractRelayBlockEntity {
-    public PushRelayBlockEntity() {
-        super(BlockEntities.PUSH_RELAY_ENTITY);
+    public PushRelayBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntities.PUSH_RELAY_ENTITY, pos, state);
     }
 
     @Override

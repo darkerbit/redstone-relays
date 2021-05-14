@@ -1,8 +1,9 @@
 package io.github.darkerbit.redstonerelays.block;
 
 import io.github.darkerbit.redstonerelays.block.entity.PushRelayBlockEntity;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.world.BlockView;
+import net.minecraft.util.math.BlockPos;
 
 public class PushRelayBlock extends AbstractRelayBlock {
     public PushRelayBlock(Settings settings) {
@@ -10,7 +11,7 @@ public class PushRelayBlock extends AbstractRelayBlock {
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new PushRelayBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new PushRelayBlockEntity(pos, state);
     }
 }

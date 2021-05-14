@@ -1,8 +1,9 @@
 package io.github.darkerbit.redstonerelays.block;
 
 import io.github.darkerbit.redstonerelays.block.entity.ToggleRelayBlockEntity;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.world.BlockView;
+import net.minecraft.util.math.BlockPos;
 
 public class ToggleRelayBlock extends AbstractRelayBlock {
     public ToggleRelayBlock(Settings settings) {
@@ -10,7 +11,7 @@ public class ToggleRelayBlock extends AbstractRelayBlock {
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new ToggleRelayBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new ToggleRelayBlockEntity(pos, state);
     }
 }
