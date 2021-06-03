@@ -1,0 +1,24 @@
+{
+  "block.redstonerelays.push_relay": "Kytkinrelee",
+  "block.redstonerelays.toggle_relay": "Vaihtorelee",
+
+  "key.redstonerelays.relay_0": "Relee 0",
+  "key.redstonerelays.relay_1": "Relee 1",
+  "key.redstonerelays.relay_2": "Relee 2",
+  "key.redstonerelays.relay_3": "Relee 3",
+  "key.redstonerelays.relay_4": "Relee 4",
+  "key.redstonerelays.relay_5": "Relee 5",
+  "key.redstonerelays.relay_6": "Relee 6",
+  "key.redstonerelays.relay_7": "Relee 7",
+  "key.redstonerelays.relay_8": "Relee 8",
+  "key.redstonerelays.relay_9": "Relee 9",
+
+  "category.redstonerelays.triggers": "Releet",
+
+  "error.redstonerelays.wrong_player": "Tämän releen omistaa %s",
+
+  "gamerule.relayRange": "Releesäde",
+
+  "gui.redstonerelays.relay_screen_narrator": "Relee %d valittu, näppäin %s.",
+  "gui.redstonerelays.relay_screen_button_narrator": "Relee %d, näppäin %s."
+}
