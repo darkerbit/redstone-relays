@@ -7,12 +7,12 @@ import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -25,7 +25,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
     private static final int BUTTON_WIDTH = 34;
     private static final int BUTTON_HEIGHT = 22;
 
-    private ButtonWidget[] buttonWidgets = new ButtonWidget[10];
+    private RelayButtonWidget[] buttonWidgets = new RelayButtonWidget[10];
 
     private int pressed = 0;
 
@@ -48,22 +48,30 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         int startX = backgroundWidth / 2 - 3 * BUTTON_WIDTH / 2;
         int startY = backgroundHeight / 2 - 4 * BUTTON_HEIGHT / 2;
 
-        buttonWidgets[button] = new ButtonWidget(
-                startX + x * BUTTON_WIDTH + 1 + (y < 0 ? (int) (0.5 * BUTTON_WIDTH) : 0),
-                startY + (2 - y) * BUTTON_HEIGHT + 1,
+        buttonWidgets[button] = addDrawableChild(new RelayButtonWidget(
+                this.x + startX + x * BUTTON_WIDTH + 1 + (y < 0 ? (int) (0.5 * BUTTON_WIDTH) : 0),
+                this.y + startY + (2 - y) * BUTTON_HEIGHT + 1,
                 (y < 0 ? 2 : 1) * BUTTON_WIDTH - 2, BUTTON_HEIGHT - 2,
-                new LiteralText(textRenderer.trimToWidth(RedstoneRelaysClient.getKeybindName(button), BUTTON_WIDTH - 4).getString()),
+                button, BUTTON_WIDTH - 4, textRenderer,
                 buttonWidget -> {
                     client.interactionManager.clickButton(handler.syncId, button);
                 }
-        );
+        ));
+    }
 
-        if (button == pressed) {
-            buttonWidgets[button].active = false;
-        }
+    private void setPressed(int num) {
+        buttonWidgets[pressed].active = true;
+
+        buttonWidgets[num].active = false;
+        buttonWidgets[num].unFocus();
+        setFocused(null);
+
+        this.pressed = num;
     }
 
     private void setupButtons() {
+        makeButton(0, 0, -1);
+
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 3; i++) {
                 int button_i = j * 3 + i + 1;
@@ -72,22 +80,18 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
             }
         }
 
-        makeButton(0, 0, -1);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int buttonId) {
-        for (ButtonWidget button : buttonWidgets) {
-             if (button.mouseClicked(mouseX - x, mouseY - y, buttonId))
-                 return true;
-        }
-
-        return false;
+        buttonWidgets[pressed].active = false;
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);
+
+        int curPressed = handler.getRelayNumber();
+
+        if (pressed != curPressed)
+            setPressed(curPressed);
+
         super.render(matrices, mouseX, mouseY, delta);
     }
 
@@ -102,17 +106,14 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        int newPressed = handler.getRelayNumber();
-
-        if (pressed != newPressed) {
-            pressed = newPressed;
-            setupButtons();
-        }
-
         textRenderer.draw(matrices, textRenderer.trimToWidth(title, backgroundWidth - 2 * titleX).getString(), titleX, titleY - 10, 4210752);
+    }
 
-        for (ButtonWidget button : buttonWidgets) {
-            button.render(matrices, mouseX - x, mouseY - y, 0.0f);
-        }
+    @Override
+    protected void addElementNarrations(NarrationMessageBuilder builder) {
+        builder.put(NarrationPart.USAGE, RedstoneRelays.translateNow("gui", "relay_screen_narrator",
+                handler.getRelayNumber(), RedstoneRelaysClient.getKeybindName(handler.getRelayNumber()).getString()));
+
+        super.addElementNarrations(builder);
     }
 }

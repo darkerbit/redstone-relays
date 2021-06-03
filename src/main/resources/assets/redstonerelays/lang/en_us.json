@@ -15,5 +15,8 @@
 
   "category.redstonerelays.triggers": "Relay Triggers",
 
-  "error.redstonerelays.wrong_player": "This relay is owned by %s"
+  "error.redstonerelays.wrong_player": "This relay is owned by %s",
+
+  "gui.redstonerelays.relay_screen_narrator": "Relay number %d selected, keybinding %s.",
+  "gui.redstonerelays.relay_screen_button_narrator": "Relay button %d, keybinding %s."
 }

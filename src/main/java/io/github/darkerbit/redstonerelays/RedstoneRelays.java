@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
@@ -38,6 +39,10 @@ public final class RedstoneRelays implements ModInitializer {
                 translationKey(category, name),
                 args
         );
+    }
+
+    public static String translateNow(String category, String name, Object... args) {
+        return I18n.translate(translationKey(category, name), args);
     }
 
     @Override
