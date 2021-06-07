@@ -11,10 +11,12 @@ import net.minecraft.util.registry.Registry;
 public final class Blocks {
     public static final Block PUSH_RELAY = new PushRelayBlock(FabricBlockSettings.copyOf(net.minecraft.block.Blocks.DAYLIGHT_DETECTOR));
     public static final Block TOGGLE_RELAY = new ToggleRelayBlock(FabricBlockSettings.copyOf(net.minecraft.block.Blocks.DAYLIGHT_DETECTOR));
+    public static final Block PULSE_RELAY = new PulseRelayBlock(FabricBlockSettings.copyOf(net.minecraft.block.Blocks.DAYLIGHT_DETECTOR));
 
     public static void register() {
         registerBlockItem("push_relay", PUSH_RELAY);
         registerBlockItem("toggle_relay", TOGGLE_RELAY);
+        registerBlockItem("pulse_relay", PULSE_RELAY);
     }
 
     private static void registerBlock(String name, Block block) {

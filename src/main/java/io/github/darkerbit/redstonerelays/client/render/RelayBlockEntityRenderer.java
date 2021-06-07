@@ -24,21 +24,19 @@ public class RelayBlockEntityRenderer<T extends AbstractRelayBlockEntity> implem
 
     private void translate(MatrixStack matrices, int facing) {
         switch (facing) {
-            case 0:
-                matrices.translate(1.0d, VERTICAL, -0.01d);
-                break;
-            case 1:
+            case 0 -> matrices.translate(1.0d, VERTICAL, -0.01d);
+            case 1 -> {
                 matrices.translate(-0.01d, VERTICAL, 0.0d);
                 matrices.multiply(new Quaternion(0, 90, 0, true));
-                break;
-            case 2:
+            }
+            case 2 -> {
                 matrices.translate(0.0d, VERTICAL, 1.01d);
                 matrices.multiply(new Quaternion(0, 180, 0, true));
-                break;
-            case 3:
+            }
+            case 3 -> {
                 matrices.translate(1.01d, VERTICAL, 1.0d);
                 matrices.multiply(new Quaternion(0, 270, 0, true));
-                break;
+            }
         }
 
         matrices.scale(FACTOR, FACTOR, FACTOR);

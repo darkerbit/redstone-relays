@@ -9,6 +9,7 @@ import net.minecraft.util.registry.Registry;
 public final class BlockEntities {
     public static BlockEntityType<PushRelayBlockEntity> PUSH_RELAY_ENTITY;
     public static BlockEntityType<ToggleRelayBlockEntity> TOGGLE_RELAY_ENTITY;
+    public static BlockEntityType<PulseRelayBlockEntity> PULSE_RELAY_ENTITY;
 
     public static void register() {
         PUSH_RELAY_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, RedstoneRelays.identifier("push_relay"),
@@ -16,5 +17,8 @@ public final class BlockEntities {
 
         TOGGLE_RELAY_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, RedstoneRelays.identifier("toggle_relay"),
                 FabricBlockEntityTypeBuilder.create(ToggleRelayBlockEntity::new, Blocks.TOGGLE_RELAY).build(null));
+
+        PULSE_RELAY_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, RedstoneRelays.identifier("pulse_relay"),
+                FabricBlockEntityTypeBuilder.create(PulseRelayBlockEntity::new, Blocks.PULSE_RELAY).build(null));
     }
 }

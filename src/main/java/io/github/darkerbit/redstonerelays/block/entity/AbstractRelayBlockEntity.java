@@ -113,6 +113,11 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     @Override
+    public boolean copyItemDataRequiresOperator() {
+        return true;
+    }
+
+    @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         if (!this.player.equals(player.getUuidAsString()))
             return null;
@@ -203,5 +208,9 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
 
         this.triggered = triggered;
         markDirty();
+    }
+
+    public int getRedstoneLevel() {
+        return 15;
     }
 }

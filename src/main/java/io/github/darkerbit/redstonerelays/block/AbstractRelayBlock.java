@@ -99,7 +99,14 @@ public abstract class AbstractRelayBlock extends HorizontalFacingBlock implement
 
     @Override
     public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(TRIGGERED) && direction != Direction.DOWN ? 15 : 0;
+        if (!state.get(TRIGGERED) || direction == Direction.DOWN)
+            return 0;
+
+        if (world.getBlockEntity(pos) instanceof AbstractRelayBlockEntity blockEntity) {
+            return blockEntity.getRedstoneLevel();
+        } else {
+            return 0;
+        }
     }
 
     @Override
