@@ -3,6 +3,7 @@ package io.github.darkerbit.redstonerelays.client;
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
 import io.github.darkerbit.redstonerelays.client.gui.RelayScreen;
+import io.github.darkerbit.redstonerelays.client.render.PulseRelayBlockEntityRenderer;
 import io.github.darkerbit.redstonerelays.client.render.RelayBlockEntityRenderer;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
@@ -37,9 +38,11 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
 
         ScreenRegistry.register(RelayScreenHandler.RELAY_SCREEN_HANDLER, RelayScreen::new);
 
+        PulseRelayBlockEntityRenderer.register();
+
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PUSH_RELAY_ENTITY, RelayBlockEntityRenderer::create);
         BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.TOGGLE_RELAY_ENTITY, RelayBlockEntityRenderer::create);
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PULSE_RELAY_ENTITY, RelayBlockEntityRenderer::create);
+        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PULSE_RELAY_ENTITY, PulseRelayBlockEntityRenderer::new);
     }
 
     public static Text getKeybindName(int number) {

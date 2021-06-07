@@ -18,7 +18,7 @@ public class RelayBlockEntityRenderer<T extends AbstractRelayBlockEntity> implem
 
     private final TextRenderer textRenderer;
 
-    private RelayBlockEntityRenderer(TextRenderer textRenderer) {
+    protected RelayBlockEntityRenderer(TextRenderer textRenderer) {
         this.textRenderer = textRenderer;
     }
 
