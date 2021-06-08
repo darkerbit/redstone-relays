@@ -52,7 +52,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
                 this.x + startX + x * BUTTON_WIDTH + 1 + (y < 0 ? (int) (0.5 * BUTTON_WIDTH) : 0),
                 this.y + startY + (2 - y) * BUTTON_HEIGHT + 1,
                 (y < 0 ? 2 : 1) * BUTTON_WIDTH - 2, BUTTON_HEIGHT - 2,
-                button, BUTTON_WIDTH - 4, textRenderer,
+                button, (y < 0 ? 2 : 1) * BUTTON_WIDTH - 4, textRenderer,
                 buttonWidget -> {
                     client.interactionManager.clickButton(handler.syncId, button);
                 }
@@ -106,7 +106,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        textRenderer.draw(matrices, textRenderer.trimToWidth(title, backgroundWidth - 2 * titleX).getString(), titleX, titleY - 10, 4210752);
+        textRenderer.draw(matrices, textRenderer.trimToWidth(title, backgroundWidth - 2 * titleX).getString(), titleX, titleY - 9, 4210752);
     }
 
     @Override

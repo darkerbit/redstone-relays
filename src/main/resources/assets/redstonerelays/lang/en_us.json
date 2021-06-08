@@ -1,6 +1,7 @@
 {
   "block.redstonerelays.push_relay": "Push Relay",
   "block.redstonerelays.toggle_relay": "Toggle Relay",
+  "block.redstonerelays.pulse_relay": "Pulse Relay",
 
   "key.redstonerelays.relay_0": "Relay 0",
   "key.redstonerelays.relay_1": "Relay 1",

@@ -1,6 +1,7 @@
 {
   "block.redstonerelays.push_relay": "Kytkinrelee",
   "block.redstonerelays.toggle_relay": "Vaihtorelee",
+  "block.redstonerelays.pulse_relay": "Pulssirelee",
 
   "key.redstonerelays.relay_0": "Relee 0",
   "key.redstonerelays.relay_1": "Relee 1",

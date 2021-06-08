@@ -11,6 +11,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3f;
 
 public class PulseRelayBlockEntityRenderer extends RelayBlockEntityRenderer<PulseRelayBlockEntity> {
     private static final Identifier TURNKEY_TEXTURE = RedstoneRelays.identifier("textures/entity/pulse_relay_turnkey.png");
@@ -26,10 +27,12 @@ public class PulseRelayBlockEntityRenderer extends RelayBlockEntityRenderer<Puls
         ModelPartData partData = modelData.getRoot();
 
         partData.addChild("turnkey", ModelPartBuilder.create()
-                .uv(0, 0).cuboid(0, 18, 0, 4, 4, 4),
-                ModelTransform.NONE);
+                .uv(0, 0).cuboid(-1, 0, -0.5f, 2, 2, 1)
+                .uv(0, 4).cuboid(-2, 2, -0.5f, 4, 1, 1)
+                .uv(8, 0).cuboid(-1, 3, -0.5f, 2, 1, 1),
+                ModelTransform.pivot(8, 6, 5.5f));
 
-        return TexturedModelData.of(modelData, 64, 64);
+        return TexturedModelData.of(modelData, 16, 8);
     }
 
     private final ModelPart turnkeyModel;
@@ -44,8 +47,17 @@ public class PulseRelayBlockEntityRenderer extends RelayBlockEntityRenderer<Puls
     public void render(PulseRelayBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         super.render(entity, tickDelta, matrices, vertexConsumers, light, overlay);
 
+        matrices.push();
+
+        // rotate to match blockstate
+        matrices.translate(0.5, 0.5, 0.5);
+        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.getRenderOrientation()));
+        matrices.translate(-0.5, -0.5, -0.5);
+
         turnkeyModel.yaw = (float) Math.toRadians(entity.getAnimator().getRotation(tickDelta));
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(TURNKEY_TEXTURE));
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(TURNKEY_TEXTURE));
         turnkeyModel.render(matrices, vertexConsumer, light, overlay);
+
+        matrices.pop();
     }
 }

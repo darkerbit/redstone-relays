@@ -99,6 +99,16 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     }
 
     @Environment(EnvType.CLIENT)
+    public int getRenderOrientation() {
+        return switch (getCachedState().get(PulseRelayBlock.FACING)) {
+            case NORTH, UP, DOWN -> 0;
+            case EAST -> 90;
+            case SOUTH -> 180;
+            case WEST -> 270;
+        };
+    }
+
+    @Environment(EnvType.CLIENT)
     private final Animator animator = new Animator();
 
     @Environment(EnvType.CLIENT)
@@ -111,7 +121,6 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
         blockEntity.animator.tick();
     }
 
-    @Environment(EnvType.CLIENT)
     public class Animator {
         private static final float MAX_ROTATION = 288.0f;
 
@@ -120,6 +129,7 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
 
         private int counter = 0;
 
+        @Environment(EnvType.CLIENT)
         private void tick() {
             lastRotation = rotation;
 
@@ -132,6 +142,7 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
             }
         }
 
+        @Environment(EnvType.CLIENT)
         public float getRotation(float tickDelta) {
             return MathHelper.lerp(tickDelta, lastRotation, rotation);
         }
