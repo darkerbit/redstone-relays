@@ -25,6 +25,8 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
     private static final int BUTTON_WIDTH = 34;
     private static final int BUTTON_HEIGHT = 22;
 
+    private static final int BUTTON_PANEL_HEIGHT = 106;
+
     private RelayButtonWidget[] buttonWidgets = new RelayButtonWidget[10];
 
     private int pressed = 0;
@@ -37,8 +39,8 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
 
     @Override
     protected void init() {
-        this.backgroundWidth = 114;
-        this.backgroundHeight = 104;
+        this.backgroundWidth = 176;
+        this.backgroundHeight = 192;
 
         super.init();
         setupButtons();
@@ -46,7 +48,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
 
     private void makeButton(int button, int x, int y) {
         int startX = backgroundWidth / 2 - 3 * BUTTON_WIDTH / 2;
-        int startY = backgroundHeight / 2 - 4 * BUTTON_HEIGHT / 2;
+        int startY = BUTTON_PANEL_HEIGHT / 2 - 4 * BUTTON_HEIGHT / 2 + 8;
 
         buttonWidgets[button] = addDrawableChild(new RelayButtonWidget(
                 this.x + startX + x * BUTTON_WIDTH + 1 + (y < 0 ? (int) (0.5 * BUTTON_WIDTH) : 0),
@@ -101,12 +103,13 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        this.drawTexture(matrices, x, y - 10, 0, 0, this.backgroundWidth, this.backgroundHeight + 10);
+        this.drawTexture(matrices, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        textRenderer.draw(matrices, textRenderer.trimToWidth(title, backgroundWidth - 2 * titleX).getString(), titleX, titleY - 9, 4210752);
+        String trimmed = textRenderer.trimToWidth(title, backgroundWidth - 8).getString();
+        textRenderer.draw(matrices, trimmed, backgroundWidth / 2.0f - textRenderer.getWidth(trimmed) / 2.0f, titleY, 4210752);
     }
 
     @Override

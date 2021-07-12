@@ -18,7 +18,7 @@
 
   "error.redstonerelays.wrong_player": "Tämän releen omistaa %s",
 
-  "gamerule.relayRange": "Releesäde",
+  "gamerule.relayRange": "Perusreleesäde",
 
   "gui.redstonerelays.relay_screen_narrator": "Relee %d valittu, näppäin %s.",
   "gui.redstonerelays.relay_screen_button_narrator": "Relee %d, näppäin %s."
