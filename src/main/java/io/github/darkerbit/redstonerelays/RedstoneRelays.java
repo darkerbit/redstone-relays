@@ -1,15 +1,17 @@
 package io.github.darkerbit.redstonerelays;
 
-import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.Blocks;
+import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
+import io.github.darkerbit.redstonerelays.item.Items;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -51,11 +53,17 @@ public final class RedstoneRelays implements ModInitializer {
 
         Blocks.register();
         BlockEntities.register();
+        Items.register();
 
         ServerWorldEvents.UNLOAD.register((server, world) -> {
             RelayTriggerCallback.callbacks.clear();
         });
 
-        ServerChunkEvents.CHUNK_UNLOAD.register(ChunkUnloadListener::impl_onChunkUnload);
+        ServerChunkEvents.CHUNK_UNLOAD.register((world, chunk) -> {
+            for (BlockEntity blockEntity : chunk.getBlockEntities().values()) {
+                if (blockEntity instanceof AbstractRelayBlockEntity relay)
+                    relay.unregister();
+            }
+        });
     }
 }

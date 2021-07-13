@@ -13,6 +13,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -56,8 +57,10 @@ public abstract class AbstractRelayBlock extends HorizontalFacingBlock implement
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
-            if (blockEntity instanceof AbstractRelayBlockEntity) {
-                ((AbstractRelayBlockEntity) blockEntity).unregister();
+            if (blockEntity instanceof AbstractRelayBlockEntity relay) {
+                relay.unregister();
+
+                ItemScatterer.spawn(world, pos, relay);
             }
         }
 

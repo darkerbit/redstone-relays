@@ -1,11 +1,11 @@
 package io.github.darkerbit.redstonerelays.block;
 
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
+import io.github.darkerbit.redstonerelays.item.Items;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.registry.Registry;
 
 public final class Blocks {
@@ -26,6 +26,6 @@ public final class Blocks {
     private static void registerBlockItem(String name, Block block) {
         registerBlock(name, block);
 
-        Registry.register(Registry.ITEM, RedstoneRelays.identifier(name), new BlockItem(block, new FabricItemSettings().group(ItemGroup.REDSTONE)));
+        Registry.register(Registry.ITEM, RedstoneRelays.identifier(name), new BlockItem(block, new FabricItemSettings().group(Items.ITEM_GROUP)));
     }
 }

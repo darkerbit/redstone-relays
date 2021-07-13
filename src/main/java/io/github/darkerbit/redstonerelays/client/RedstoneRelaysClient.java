@@ -31,7 +31,7 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         for (int i = 0; i < keyBindings.length; i++) {
-            registerKeyBind(i, GLFW.GLFW_KEY_KP_0 + i); // This is a hack, the glfw scancodes aren't exactly guaranteed but it'll serve
+            registerKeyBind(i, GLFW.GLFW_KEY_KP_0 + i);
         }
 
         ClientTickEvents.END_CLIENT_TICK.register(RedstoneRelaysClient::onEndClientTick);

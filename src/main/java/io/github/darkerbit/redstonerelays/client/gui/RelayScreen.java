@@ -95,6 +95,8 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
             setPressed(curPressed);
 
         super.render(matrices, mouseX, mouseY, delta);
+
+        drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
     @Override

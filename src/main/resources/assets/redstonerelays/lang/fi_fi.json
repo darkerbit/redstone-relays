@@ -21,5 +21,7 @@
   "gamerule.relayRange": "Perusreleesäde",
 
   "gui.redstonerelays.relay_screen_narrator": "Relee %d valittu, näppäin %s.",
-  "gui.redstonerelays.relay_screen_button_narrator": "Relee %d, näppäin %s."
+  "gui.redstonerelays.relay_screen_button_narrator": "Relee %d, näppäin %s.",
+
+  "itemGroup.redstonerelays.group": "Redstone Relays"
 }

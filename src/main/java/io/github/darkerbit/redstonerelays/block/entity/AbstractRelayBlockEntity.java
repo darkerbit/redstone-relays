@@ -1,13 +1,11 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
-import io.github.darkerbit.redstonerelays.api.ChunkUnloadListener;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,14 +14,13 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class AbstractRelayBlockEntity extends BlockEntity
-        implements RelayTriggerCallback, ChunkUnloadListener, NamedScreenHandlerFactory, BlockEntityClientSerializable {
+public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
+        implements RelayTriggerCallback, NamedScreenHandlerFactory, BlockEntityClientSerializable {
 
     protected boolean triggered = false;
     protected int number = 0;
@@ -108,11 +105,6 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
     }
 
     @Override
-    public void onChunkUnload(ServerWorld world) {
-        unregister();
-    }
-
-    @Override
     public boolean copyItemDataRequiresOperator() {
         return true;
     }
@@ -130,6 +122,10 @@ public abstract class AbstractRelayBlockEntity extends BlockEntity
         return this.customName != null
                 ? this.customName
                 : new TranslatableText(getCachedState().getBlock().getTranslationKey());
+    }
+
+    @Override
+    protected void updateUpgrades() {
     }
 
     // Runs on the logical server only
