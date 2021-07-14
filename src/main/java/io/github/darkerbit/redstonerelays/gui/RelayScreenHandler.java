@@ -34,7 +34,7 @@ public class RelayScreenHandler extends ScreenHandler {
 
     // client constructor
     public RelayScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new ArrayPropertyDelegate(1), ScreenHandlerContext.EMPTY, new SimpleInventory(4));
+        this(syncId, playerInventory, new ArrayPropertyDelegate(3), ScreenHandlerContext.EMPTY, new SimpleInventory(4));
     }
 
     // Common constructor
@@ -68,6 +68,12 @@ public class RelayScreenHandler extends ScreenHandler {
     public int getRelayNumber() {
         return propertyDelegate.get(AbstractRelayBlockEntity.RELAY_NUMBER_PROP);
     }
+
+    public int getRange() { return propertyDelegate.get(AbstractRelayBlockEntity.RELAY_RANGE_PROP); }
+
+    public int getPulseLength() { return propertyDelegate.get(AbstractRelayBlockEntity.RELAY_PULSE_PROP); }
+
+    public boolean hasPulseLength() { return getPulseLength() > 0; }
 
     @Override
     public boolean canUse(PlayerEntity player) {

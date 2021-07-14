@@ -4,6 +4,7 @@ import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
+import io.github.darkerbit.redstonerelays.item.Items;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -25,6 +26,8 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     protected boolean triggered = false;
     protected int number = 0;
 
+    protected int range = 0;
+
     protected String player = "";
     protected String playerName = "";
 
@@ -33,10 +36,17 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     private boolean registered = false;
 
     public static final int RELAY_NUMBER_PROP = 0;
+    public static final int RELAY_RANGE_PROP = 1;
+    public static final int RELAY_PULSE_PROP = 2;
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
-            return number;
+            return switch (index) {
+                case RELAY_NUMBER_PROP -> number;
+                case RELAY_RANGE_PROP -> range;
+                case RELAY_PULSE_PROP -> getPulseLength();
+                default -> 0;
+            };
         }
 
         @Override
@@ -44,7 +54,7 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
 
         @Override
         public int size() {
-            return 1;
+            return 3;
         }
     };
 
@@ -58,6 +68,7 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
 
         if (!registered && !world.isClient) {
             RelayTriggerCallback.register(this);
+            updateUpgrades();
 
             registered = true;
         }
@@ -126,6 +137,9 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
 
     @Override
     protected void updateUpgrades() {
+        range = world.getGameRules().getInt(RedstoneRelays.RELAY_RANGE_RULE);
+
+        range += count(Items.RANGE_UPGRADE) * 8;
     }
 
     // Runs on the logical server only
@@ -163,6 +177,8 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
         return this.number;
     }
 
+    public int getPulseLength() { return -1; }
+
     public void setPlayer(PlayerEntity player) {
         this.player = player.getUuidAsString();
         this.playerName = player.getEntityName();
@@ -181,8 +197,6 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
         // check if the player is in the same dimension
         if (player.world.getRegistryKey() != world.getRegistryKey())
             return false;
-
-        int range = world.getGameRules().getInt(RedstoneRelays.RELAY_RANGE_RULE);
 
         return pos.getSquaredDistance(player.getPos(), false) < range * range;
     }

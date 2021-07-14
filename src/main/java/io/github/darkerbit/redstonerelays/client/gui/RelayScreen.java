@@ -112,12 +112,17 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
         String trimmed = textRenderer.trimToWidth(title, backgroundWidth - 8).getString();
         textRenderer.draw(matrices, trimmed, backgroundWidth / 2.0f - textRenderer.getWidth(trimmed) / 2.0f, titleY, 4210752);
+
+        textRenderer.draw(matrices, Integer.toString(handler.getRange()), 5, 5, 4210752);
+
+        if (handler.hasPulseLength())
+            textRenderer.draw(matrices, "~" + Float.toString(15 * handler.getPulseLength() / 20.0f) + "s", 5, 15, 4210752);
     }
 
     @Override
     protected void addElementNarrations(NarrationMessageBuilder builder) {
         builder.put(NarrationPart.USAGE, RedstoneRelays.translateNow("gui", "relay_screen_narrator",
-                handler.getRelayNumber(), RedstoneRelaysClient.getKeybindName(handler.getRelayNumber()).getString()));
+                handler.getRelayNumber(), RedstoneRelaysClient.getKeybindName(handler.getRelayNumber()).getString(), handler.getRange()));
 
         super.addElementNarrations(builder);
     }

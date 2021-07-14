@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class PulseRelayBlock extends AbstractRelayBlock {
-    public static final int DELAY = 2;
-
     public PulseRelayBlock(Settings settings) {
         super(settings);
     }
@@ -27,7 +25,7 @@ public class PulseRelayBlock extends AbstractRelayBlock {
     public void trigger(World world, BlockState state, BlockPos pos) {
         setTriggered(world, state, pos, true);
 
-        world.getBlockTickScheduler().schedule(pos, this, DELAY);
+        world.getBlockTickScheduler().schedule(pos, this, ((PulseRelayBlockEntity) world.getBlockEntity(pos)).getPulseLength());
     }
 
     @Override
@@ -49,7 +47,7 @@ public class PulseRelayBlock extends AbstractRelayBlock {
 
             if (cont) {
                 blockEntity.step();
-                world.getBlockTickScheduler().schedule(pos, this, DELAY);
+                world.getBlockTickScheduler().schedule(pos, this, blockEntity.getPulseLength());
             } else {
                 blockEntity.onComplete();
             }

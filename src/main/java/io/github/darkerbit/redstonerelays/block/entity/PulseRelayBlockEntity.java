@@ -1,6 +1,7 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
 import io.github.darkerbit.redstonerelays.block.PulseRelayBlock;
+import io.github.darkerbit.redstonerelays.item.Items;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -14,6 +15,8 @@ import net.minecraft.world.World;
 
 public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     private int level = 0;
+
+    private int pulseLength = 2;
 
     public PulseRelayBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntities.PULSE_RELAY_ENTITY, pos, state);
@@ -65,6 +68,20 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
         tag.putInt("level", level);
 
         return tag;
+    }
+
+    @Override
+    protected void updateUpgrades() {
+        super.updateUpgrades();
+
+        pulseLength = 2;
+
+        pulseLength += count(Items.PULSE_UPGRADE);
+    }
+
+    @Override
+    public int getPulseLength() {
+        return pulseLength;
     }
 
     public void step() {
@@ -134,7 +151,7 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
             lastRotation = rotation;
 
             if (level > 0) {
-                float factor = (float) counter / (15.0f * PulseRelayBlock.DELAY);
+                float factor = (float) counter / (15.0f * getPulseLength());
 
                 rotation = MathHelper.lerp(factor, 0.0f, MAX_ROTATION);
 
