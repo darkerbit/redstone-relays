@@ -23,5 +23,7 @@
   "gui.redstonerelays.relay_screen_narrator": "Relee %d valittu, näppäin %s, säde %d.",
   "gui.redstonerelays.relay_screen_button_narrator": "Relee %d, näppäin %s.",
 
+  "gui.redstonerelays.relay_range_header": "Säde",
+
   "itemGroup.redstonerelays.group": "Redstone Relays"
 }

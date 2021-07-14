@@ -14,6 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -113,10 +114,19 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         String trimmed = textRenderer.trimToWidth(title, backgroundWidth - 8).getString();
         textRenderer.draw(matrices, trimmed, backgroundWidth / 2.0f - textRenderer.getWidth(trimmed) / 2.0f, titleY, 4210752);
 
-        textRenderer.draw(matrices, Integer.toString(handler.getRange()), 5, 5, 4210752);
+        textRenderer.draw(matrices, RedstoneRelays.translate("gui", "relay_range_header"), 6, titleY, 4210752);
+        textRenderer.draw(matrices, Integer.toString(handler.getRange()), 6, titleY + 10, 4210752);
 
-        if (handler.hasPulseLength())
-            textRenderer.draw(matrices, "~" + Float.toString(15 * handler.getPulseLength() / 20.0f) + "s", 5, 15, 4210752);
+        if (handler.hasPulseLength()) {
+            TranslatableText header = RedstoneRelays.translate("gui", "relay_pulse_header");
+            TranslatableText value = RedstoneRelays.translate("gui", "relay_pulse_value", 15 * handler.getPulseLength() / 20.0f);
+
+            int headerWidth = textRenderer.getWidth(header);
+            int valueWidth = textRenderer.getWidth(value);
+
+            textRenderer.draw(matrices, header, backgroundWidth - 6 - headerWidth, titleY, 4210752);
+            textRenderer.draw(matrices, value, backgroundWidth - 6 - valueWidth, titleY + 10, 4210752);
+        }
     }
 
     @Override
