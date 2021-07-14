@@ -3,6 +3,7 @@ package io.github.darkerbit.redstonerelays.gui;
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
+import io.github.darkerbit.redstonerelays.item.Items;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -47,11 +48,11 @@ public class RelayScreenHandler extends ScreenHandler {
 
         this.context = context;
 
-        addSlot(new Slot(inventory, 0, 8, 86));
-        addSlot(new Slot(inventory, 1, 8 + 18, 86));
+        addSlot(new UpgradeSlot(inventory, 0, 8, 86));
+        addSlot(new UpgradeSlot(inventory, 1, 8 + 18, 86));
 
-        addSlot(new Slot(inventory, 2, 134, 86));
-        addSlot(new Slot(inventory, 3, 134 + 18, 86));
+        addSlot(new UpgradeSlot(inventory, 2, 134, 86));
+        addSlot(new UpgradeSlot(inventory, 3, 134 + 18, 86));
 
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 9; i++) {
@@ -109,5 +110,16 @@ public class RelayScreenHandler extends ScreenHandler {
         }
 
         return out;
+    }
+
+    private static class UpgradeSlot extends Slot {
+        public UpgradeSlot(Inventory inventory, int index, int x, int y) {
+            super(inventory, index, x, y);
+        }
+
+        @Override
+        public boolean canInsert(ItemStack stack) {
+            return stack.isIn(Items.UPGRADE_TAG);
+        }
     }
 }

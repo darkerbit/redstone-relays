@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
+import io.github.darkerbit.redstonerelays.item.Items;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -80,8 +81,7 @@ public abstract class UpgradeableBlockEntity extends BlockEntity implements Inve
 
     @Override
     public boolean isValid(int slot, ItemStack stack) {
-        return true;
-        //return stack.isIn(Items.UPGRADE_TAG);
+        return stack.isIn(Items.UPGRADE_TAG);
     }
 
     @Override

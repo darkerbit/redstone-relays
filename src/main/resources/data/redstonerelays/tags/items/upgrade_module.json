@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "redstonerelays:range_upgrade",
+    "redstonerelays:pulse_upgrade"
+  ]
+}
