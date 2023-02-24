@@ -25,5 +25,8 @@
 
   "gui.redstonerelays.relay_range_header": "Säde",
 
-  "itemGroup.redstonerelays.group": "Redstone Relays"
+  "itemGroup.redstonerelays.group": "Redstone Relays",
+
+  "item.redstonerelays.pulse_upgrade": "Pulssipäivitys",
+  "item.redstonerelays.range_upgrade": "Sädepäivitys"
 }

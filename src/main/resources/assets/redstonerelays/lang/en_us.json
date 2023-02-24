@@ -28,5 +28,8 @@
   "gui.redstonerelays.relay_pulse_header": "Pulse",
   "gui.redstonerelays.relay_pulse_value": "%ds",
 
-  "itemGroup.redstonerelays.group": "Redstone Relays"
+  "itemGroup.redstonerelays.group": "Redstone Relays",
+
+  "item.redstonerelays.pulse_upgrade": "Pulse Upgrade",
+  "item.redstonerelays.range_upgrade": "Range Upgrade"
 }
