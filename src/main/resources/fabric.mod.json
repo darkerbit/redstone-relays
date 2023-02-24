@@ -9,11 +9,10 @@
     "darkerbit"
   ],
   "contact": {
-    "homepage": "https://modrinth.com/mod/redstone-relays",
     "sources": "https://github.com/darkerbit/redstone-relays"
   },
 
-  "license": "MIT",
+  "license": "zlib",
   "icon": "assets/redstonerelays/icon.png",
 
   "environment": "*",
