@@ -6,7 +6,8 @@
   "name": "Redstone Relays",
   "description": "Garry's Mod-style Redstone components that activate on a keypress from the keyboard.",
   "authors": [
-    "darkerbit"
+    { "name": "darkerbit", "contact": { "homepage": "https://github.com/darkerbit/" } },
+    { "name": "Ev安", "contact": { "homepage": "https://greeko07.newgrounds.com", "twitter": "https://twitter.com/greeko07" } }
   ],
   "contact": {
     "sources": "https://github.com/darkerbit/redstone-relays"
