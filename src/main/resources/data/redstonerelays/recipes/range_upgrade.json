@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{ "item": "minecraft:iron_ingot" },
+		{ "item": "minecraft:compass" }
+	],
+	"result": {
+    	"item": "redstonerelays:range_upgrade",
+    	"count": 1
+  	}
+}
