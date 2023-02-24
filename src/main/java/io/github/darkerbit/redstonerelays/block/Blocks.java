@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public final class Blocks {
     public static final Block PUSH_RELAY = new PushRelayBlock(FabricBlockSettings.copyOf(net.minecraft.block.Blocks.DAYLIGHT_DETECTOR));

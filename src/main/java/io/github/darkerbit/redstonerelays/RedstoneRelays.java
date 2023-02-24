@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
@@ -36,8 +36,8 @@ public final class RedstoneRelays implements ModInitializer {
         return category + "." + MOD_ID + "." + name;
     }
 
-    public static TranslatableText translate(String category, String name, Object... args) {
-        return new TranslatableText(
+    public static TranslatableComponent translate(String category, String name, Object... args) {
+        return new TranslatableComponent(
                 translationKey(category, name),
                 args
         );

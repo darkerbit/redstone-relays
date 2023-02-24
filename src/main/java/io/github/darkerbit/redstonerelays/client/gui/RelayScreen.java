@@ -14,7 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -118,8 +118,8 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         textRenderer.draw(matrices, Integer.toString(handler.getRange()), 6, titleY + 10, 4210752);
 
         if (handler.hasPulseLength()) {
-            TranslatableText header = RedstoneRelays.translate("gui", "relay_pulse_header");
-            TranslatableText value = RedstoneRelays.translate("gui", "relay_pulse_value", 15 * handler.getPulseLength() / 20.0f);
+            TranslatableComponent header = RedstoneRelays.translate("gui", "relay_pulse_header");
+            TranslatableComponent value = RedstoneRelays.translate("gui", "relay_pulse_value", 15 * handler.getPulseLength() / 20.0f);
 
             int headerWidth = textRenderer.getWidth(header);
             int valueWidth = textRenderer.getWidth(value);

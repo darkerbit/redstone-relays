@@ -16,7 +16,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -132,7 +132,7 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     public Text getDisplayName() {
         return this.customName != null
                 ? this.customName
-                : new TranslatableText(getCachedState().getBlock().getTranslationKey());
+                : new TranslatableComponent(getCachedState().getBlock().getTranslationKey());
     }
 
     @Override

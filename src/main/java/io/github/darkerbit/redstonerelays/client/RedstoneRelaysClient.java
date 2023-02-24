@@ -1,5 +1,6 @@
 package io.github.darkerbit.redstonerelays.client;
 
+import com.mojang.blaze3d.platform.InputUtil;
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
 import io.github.darkerbit.redstonerelays.client.gui.RelayScreen;
@@ -17,15 +18,14 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.option.KeyBind;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public final class RedstoneRelaysClient implements ClientModInitializer {
-    private static final KeyBinding[] keyBindings = new KeyBinding[RedstoneRelays.KEY_COUNT];
+    private static final KeyBind[] keyBindings = new KeyBind[RedstoneRelays.KEY_COUNT];
     private static final boolean[] pressed = new boolean[keyBindings.length];
 
     @Override
@@ -46,11 +46,11 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
     }
 
     public static Text getKeybindName(int number) {
-        return keyBindings[number].getBoundKeyLocalizedText();
+        return keyBindings[number].getKeyName();
     }
 
     private static void registerKeyBind(int num, int key) {
-        keyBindings[num] = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindings[num] = KeyBindingHelper.registerKeyBinding(new KeyBind(
                 RedstoneRelays.translationKey("key", "relay_" + num),
                 InputUtil.Type.KEYSYM,
                 key,

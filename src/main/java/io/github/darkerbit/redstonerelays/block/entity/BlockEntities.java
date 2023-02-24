@@ -4,7 +4,7 @@ import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.Blocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public final class BlockEntities {
     public static BlockEntityType<PushRelayBlockEntity> PUSH_RELAY_ENTITY;

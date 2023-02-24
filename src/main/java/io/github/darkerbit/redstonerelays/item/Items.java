@@ -8,8 +8,8 @@ import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
 import net.minecraft.tag.Tag;
-import net.minecraft.util.registry.Registry;
 
 public final class Items {
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(
