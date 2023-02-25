@@ -28,5 +28,14 @@
   "itemGroup.redstonerelays.group": "Redstone Relays",
 
   "item.redstonerelays.pulse_upgrade": "Pulssipäivitys",
-  "item.redstonerelays.range_upgrade": "Sädepäivitys"
+  "item.redstonerelays.range_upgrade": "Sädepäivitys",
+
+  "gui.redstonerelays.relay_pulse_header": "Pulssi",
+  "gui.redstonerelays.relay_pulse_value": "%ds",
+
+  "modmenu.nameTranslation.redstonerelays": "Redstone-releet",
+
+  "link.redstonerelays.darkerbit_github": "darkerbitin GitHub",
+  "link.redstonerelays.ev_newgrounds": "Ev安:n Newgrounds",
+  "link.redstonerelays.ev_twitter": "Ev安:n Twitter"
 }

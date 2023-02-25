@@ -1,0 +1,49 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "io.github.darkerbit",
+		"id": "redstonerelays",
+		"version": "${version}",
+		"metadata": {
+			"name": "Redstone Relays",
+			"description": "Garry's Mod-style Redstone components that activate on a keypress from the keyboard.",
+			"contributors": {
+				"darkerbit": "Owner, programmer and modeler",
+				"Ev安": "Item sprite artist"
+			},
+			"contact": {
+				"homepage": "https://modrinth.com/mod/redstone-relays/",
+				"issues": "https://github.com/darkerbit/redstone-relays/issues",
+				"sources": "https://github.com/darkerbit/redstone-relays"
+			},
+			"icon": "assets/redstonerelays/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": "io.github.darkerbit.redstonerelays.RedstoneRelays",
+			"client": "io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.17.6-"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=5.0.0-"
+			},
+			{
+				"id": "minecraft",
+				"versions": ">=1.19.3"
+			}
+		]
+	},
+	"modmenu": {
+		"links": {
+			"link.redstonerelays.darkerbit_github": "https://github.com/darkerbit",
+			"link.redstonerelays.ev_newgrounds": "https://greeko07.newgrounds.com/",
+			"link.redstonerelays.ev_twitter": "https://twitter.com/greeko07"
+		}
+	},
+	"mixin": "redstonerelays.mixins.json"
+}

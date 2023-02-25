@@ -31,5 +31,11 @@
   "itemGroup.redstonerelays.group": "Redstone Relays",
 
   "item.redstonerelays.pulse_upgrade": "Pulse Upgrade",
-  "item.redstonerelays.range_upgrade": "Range Upgrade"
+  "item.redstonerelays.range_upgrade": "Range Upgrade",
+
+  "modmenu.nameTranslation.redstonerelays": "Redstone Relays",
+
+  "link.redstonerelays.darkerbit_github": "darkerbit's GitHub",
+  "link.redstonerelays.ev_newgrounds": "Ev安's Newgrounds",
+  "link.redstonerelays.ev_twitter": "Ev安's Twitter"
 }

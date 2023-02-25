@@ -6,7 +6,6 @@ import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
 import io.github.darkerbit.redstonerelays.item.Items;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
@@ -16,6 +15,8 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
 public final class RedstoneRelays implements ModInitializer {
     public static final String MOD_ID = "redstonerelays";
@@ -48,7 +49,7 @@ public final class RedstoneRelays implements ModInitializer {
     }
 
     @Override
-    public void onInitialize() {
+    public void onInitialize(ModContainer mod) {
         RelayTriggerHandler.register();
 
         Blocks.register();

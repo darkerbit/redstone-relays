@@ -8,7 +8,6 @@ import io.github.darkerbit.redstonerelays.client.render.PulseRelayBlockEntityRen
 import io.github.darkerbit.redstonerelays.client.render.RelayBlockEntityRenderer;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -22,6 +21,8 @@ import net.minecraft.client.option.KeyBind;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 
 @Environment(EnvType.CLIENT)
 public final class RedstoneRelaysClient implements ClientModInitializer {
@@ -29,7 +30,7 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
     private static final boolean[] pressed = new boolean[keyBindings.length];
 
     @Override
-    public void onInitializeClient() {
+    public void onInitializeClient(ModContainer mod) {
         for (int i = 0; i < keyBindings.length; i++) {
             registerKeyBind(i, GLFW.GLFW_KEY_KP_0 + i);
         }
