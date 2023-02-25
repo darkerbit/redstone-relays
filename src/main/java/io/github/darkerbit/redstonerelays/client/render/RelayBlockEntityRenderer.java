@@ -7,7 +7,9 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Quaternion;
+import org.joml.AxisAngle4d;
+import org.joml.Math;
+import org.joml.Quaternionf;
 
 public class RelayBlockEntityRenderer<T extends AbstractRelayBlockEntity> implements BlockEntityRenderer<T> {
     private static final float FACTOR = -1.0f/48.0f;
@@ -27,15 +29,15 @@ public class RelayBlockEntityRenderer<T extends AbstractRelayBlockEntity> implem
             case 0 -> matrices.translate(1.0d, VERTICAL, -0.01d);
             case 1 -> {
                 matrices.translate(-0.01d, VERTICAL, 0.0d);
-                matrices.multiply(new Quaternion(0, 90, 0, true));
+                matrices.multiply(new Quaternionf(new AxisAngle4d(Math.toRadians(90), 0, 1, 0)));
             }
             case 2 -> {
                 matrices.translate(0.0d, VERTICAL, 1.01d);
-                matrices.multiply(new Quaternion(0, 180, 0, true));
+                matrices.multiply(new Quaternionf(new AxisAngle4d(Math.toRadians(180), 0, 1, 0)));
             }
             case 3 -> {
                 matrices.translate(1.01d, VERTICAL, 1.0d);
-                matrices.multiply(new Quaternion(0, 270, 0, true));
+                matrices.multiply(new Quaternionf(new AxisAngle4d(Math.toRadians(270), 0, 1, 0)));
             }
         }
 

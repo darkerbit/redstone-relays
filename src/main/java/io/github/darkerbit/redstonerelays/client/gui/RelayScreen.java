@@ -9,10 +9,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.Identifier;
@@ -118,8 +120,8 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
         textRenderer.draw(matrices, Integer.toString(handler.getRange()), 6, titleY + 10, 4210752);
 
         if (handler.hasPulseLength()) {
-            TranslatableComponent header = RedstoneRelays.translate("gui", "relay_pulse_header");
-            TranslatableComponent value = RedstoneRelays.translate("gui", "relay_pulse_value", 15 * handler.getPulseLength() / 20.0f);
+            MutableText header = RedstoneRelays.translate("gui", "relay_pulse_header");
+            MutableText value = RedstoneRelays.translate("gui", "relay_pulse_value", 15 * handler.getPulseLength() / 20.0f);
 
             int headerWidth = textRenderer.getWidth(header);
             int valueWidth = textRenderer.getWidth(value);

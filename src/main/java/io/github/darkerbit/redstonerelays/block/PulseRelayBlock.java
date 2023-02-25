@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class PulseRelayBlock extends AbstractRelayBlock {
     public PulseRelayBlock(Settings settings) {
@@ -25,7 +26,7 @@ public class PulseRelayBlock extends AbstractRelayBlock {
     public void trigger(World world, BlockState state, BlockPos pos) {
         setTriggered(world, state, pos, true);
 
-        world.getBlockTickScheduler().schedule(pos, this, ((PulseRelayBlockEntity) world.getBlockEntity(pos)).getPulseLength());
+        world.scheduleBlockTick(pos, this, ((PulseRelayBlockEntity) world.getBlockEntity(pos)).getPulseLength());
     }
 
     @Override
@@ -39,7 +40,7 @@ public class PulseRelayBlock extends AbstractRelayBlock {
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.random.RandomGenerator random) {
         if (world.getBlockEntity(pos) instanceof PulseRelayBlockEntity blockEntity) {
             boolean cont = blockEntity.getRedstoneLevel() > 0;
 
@@ -47,7 +48,7 @@ public class PulseRelayBlock extends AbstractRelayBlock {
 
             if (cont) {
                 blockEntity.step();
-                world.getBlockTickScheduler().schedule(pos, this, blockEntity.getPulseLength());
+                world.scheduleBlockTick(pos, this, blockEntity.getPulseLength());
             } else {
                 blockEntity.onComplete();
             }

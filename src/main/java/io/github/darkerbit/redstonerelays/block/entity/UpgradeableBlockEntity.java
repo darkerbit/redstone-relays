@@ -98,10 +98,9 @@ public abstract class UpgradeableBlockEntity extends BlockEntity implements Inve
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound nbt) {
+    public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, items);
-        return nbt;
     }
 
     protected abstract void updateUpgrades();

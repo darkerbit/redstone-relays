@@ -14,8 +14,8 @@ public class RelayButtonWidget extends ButtonWidget {
 
     public RelayButtonWidget(int x, int y, int width, int height, int number, int maxWidth, TextRenderer textRenderer, PressAction onPress) {
         super(x, y, width, height,
-                new LiteralComponent(textRenderer.trimToWidth(RedstoneRelaysClient.getKeybindName(number), maxWidth).getString()),
-                onPress);
+                Text.literal(textRenderer.trimToWidth(RedstoneRelaysClient.getKeybindName(number), maxWidth).getString()),
+                onPress, null);
 
         this.number = number;
         this.keybindName = RedstoneRelaysClient.getKeybindName(number);

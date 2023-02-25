@@ -5,12 +5,15 @@ import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import io.github.darkerbit.redstonerelays.item.Items;
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -18,10 +21,12 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
-        implements RelayTriggerCallback, NamedScreenHandlerFactory, BlockEntityClientSerializable {
+        implements RelayTriggerCallback, NamedScreenHandlerFactory {
 
     protected boolean triggered = false;
     protected int number = 0;
@@ -89,7 +94,7 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
+    public void writeNbt(NbtCompound tag) {
         super.writeNbt(tag);
 
         tag.putBoolean("triggered", triggered);
@@ -99,19 +104,18 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
 
         if (customName != null)
             tag.putString("customName", Text.Serializer.toJson(customName));
+    }
 
-        return tag;
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.of(this);
     }
 
     @Override
-    public void fromClientTag(NbtCompound tag) {
-        this.number = tag.getInt("number");
-    }
-
-    @Override
-    public NbtCompound toClientTag(NbtCompound tag) {
-        tag.putInt("number", number);
-
+    public NbtCompound toSyncedNbt() {
+        NbtCompound tag = new NbtCompound();
+        writeNbt(tag);
         return tag;
     }
 
@@ -132,7 +136,7 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     public Text getDisplayName() {
         return this.customName != null
                 ? this.customName
-                : new TranslatableComponent(getCachedState().getBlock().getTranslationKey());
+                : Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
     @Override
@@ -173,6 +177,10 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
         return false;
     }
 
+    protected void sync() {
+        world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+    }
+
     public int getNumber() {
         return this.number;
     }
@@ -198,7 +206,8 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
         if (player.world.getRegistryKey() != world.getRegistryKey())
             return false;
 
-        return pos.getSquaredDistance(player.getPos(), false) < range * range;
+        Vec3d playerPos = player.getPos();
+        return pos.getSquaredDistance(playerPos.x, playerPos.y, playerPos.z) < range * range;
     }
 
     protected boolean playSounds() {

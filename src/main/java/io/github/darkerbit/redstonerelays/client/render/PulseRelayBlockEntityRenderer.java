@@ -3,7 +3,7 @@ package io.github.darkerbit.redstonerelays.client.render;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.entity.PulseRelayBlockEntity;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,7 +11,9 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3f;
+import org.joml.AxisAngle4d;
+import org.joml.Math;
+import org.joml.Quaternionf;
 
 public class PulseRelayBlockEntityRenderer extends RelayBlockEntityRenderer<PulseRelayBlockEntity> {
     private static final Identifier TURNKEY_TEXTURE = RedstoneRelays.identifier("textures/entity/pulse_relay_turnkey.png");
@@ -51,7 +53,7 @@ public class PulseRelayBlockEntityRenderer extends RelayBlockEntityRenderer<Puls
 
         // rotate to match blockstate
         matrices.translate(0.5, 0.5, 0.5);
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-entity.getRenderOrientation()));
+        matrices.multiply(new Quaternionf(new AxisAngle4d(Math.toRadians(-entity.getRenderOrientation()), 0, 1, 0)));
         matrices.translate(-0.5, -0.5, -0.5);
 
         turnkeyModel.yaw = (float) Math.toRadians(entity.getAnimator().getRotation(tickDelta));

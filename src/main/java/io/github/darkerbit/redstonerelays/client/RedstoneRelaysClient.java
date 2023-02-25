@@ -13,11 +13,11 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBind;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -41,9 +41,9 @@ public final class RedstoneRelaysClient implements ClientModInitializer {
 
         PulseRelayBlockEntityRenderer.register();
 
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PUSH_RELAY_ENTITY, RelayBlockEntityRenderer::create);
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.TOGGLE_RELAY_ENTITY, RelayBlockEntityRenderer::create);
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.PULSE_RELAY_ENTITY, PulseRelayBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(BlockEntities.PUSH_RELAY_ENTITY, RelayBlockEntityRenderer::create);
+        BlockEntityRendererFactories.register(BlockEntities.TOGGLE_RELAY_ENTITY, RelayBlockEntityRenderer::create);
+        BlockEntityRendererFactories.register(BlockEntities.PULSE_RELAY_ENTITY, PulseRelayBlockEntityRenderer::new);
     }
 
     public static Text getKeybindName(int number) {

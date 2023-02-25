@@ -55,19 +55,17 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     }
 
     @Override
-    public void fromClientTag(NbtCompound tag) {
-        super.fromClientTag(tag);
+    public void readNbt(NbtCompound tag) {
+        super.readNbt(tag);
 
         level = tag.getInt("level");
     }
 
     @Override
-    public NbtCompound toClientTag(NbtCompound input) {
-        NbtCompound tag = super.toClientTag(input);
+    public void writeNbt(NbtCompound tag) {
+        super.writeNbt(tag);
 
         tag.putInt("level", level);
-
-        return tag;
     }
 
     @Override
