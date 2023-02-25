@@ -21,7 +21,7 @@
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
 			"init": "io.github.darkerbit.redstonerelays.RedstoneRelays",
-			"client": "io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient"
+			"client_init": "io.github.darkerbit.redstonerelays.client.RedstoneRelaysClient"
 		},
 		"depends": [
 			{
