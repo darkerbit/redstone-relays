@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 
@@ -18,6 +19,21 @@ public abstract class UpgradeableBlockEntity extends BlockEntity implements Inve
 
     public UpgradeableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+    }
+
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+
+        Inventories.readNbt(nbt, items);
+        updateUpgrades();
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        Inventories.writeNbt(nbt, items);
+
+        super.writeNbt(nbt);
     }
 
     @Override
@@ -65,6 +81,7 @@ public abstract class UpgradeableBlockEntity extends BlockEntity implements Inve
         if (stack.getCount() > MAX_MODULES_IN_SLOT)
             stack.setCount(MAX_MODULES_IN_SLOT);
 
+        markDirty();
         updateUpgrades();
     }
 
