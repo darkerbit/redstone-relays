@@ -1,9 +1,6 @@
 package io.github.darkerbit.redstonerelays.block;
 
 import io.github.darkerbit.redstonerelays.RedstoneRelays;
-import io.github.darkerbit.redstonerelays.item.Items;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;

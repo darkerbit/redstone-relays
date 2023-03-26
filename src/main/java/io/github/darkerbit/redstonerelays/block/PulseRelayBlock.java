@@ -10,9 +10,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Random;
-import java.util.random.RandomGenerator;
-
 public class PulseRelayBlock extends AbstractRelayBlock {
     public PulseRelayBlock(Settings settings) {
         super(settings);
