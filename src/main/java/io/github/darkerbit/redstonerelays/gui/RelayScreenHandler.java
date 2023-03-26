@@ -4,18 +4,24 @@ import io.github.darkerbit.redstonerelays.RedstoneRelays;
 import io.github.darkerbit.redstonerelays.block.AbstractRelayBlock;
 import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
 import io.github.darkerbit.redstonerelays.item.Items;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.feature_flags.FeatureFlags;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 
 public class RelayScreenHandler extends ScreenHandler {
-    public static final ScreenHandlerType<RelayScreenHandler> RELAY_SCREEN_HANDLER
-            = ScreenHandlerRegistry.registerSimple(RedstoneRelays.identifier("relay_screen"), RelayScreenHandler::new);
+    public static final ScreenHandlerType<RelayScreenHandler> RELAY_SCREEN_HANDLER = new ScreenHandlerType<>(RelayScreenHandler::new, FeatureFlags.DEFAULT_SET);
+
+    public static void register()
+    {
+        Registry.register(Registries.SCREEN_HANDLER_TYPE, RedstoneRelays.identifier("relay_screen"), RELAY_SCREEN_HANDLER);
+    }
 
     private AbstractRelayBlockEntity blockEntity;
     private ScreenHandlerContext context;

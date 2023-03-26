@@ -4,6 +4,7 @@ import io.github.darkerbit.redstonerelays.api.RelayTriggerCallback;
 import io.github.darkerbit.redstonerelays.block.Blocks;
 import io.github.darkerbit.redstonerelays.block.entity.AbstractRelayBlockEntity;
 import io.github.darkerbit.redstonerelays.block.entity.BlockEntities;
+import io.github.darkerbit.redstonerelays.gui.RelayScreenHandler;
 import io.github.darkerbit.redstonerelays.item.Items;
 import io.github.darkerbit.redstonerelays.network.RelayTriggerHandler;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
@@ -56,6 +57,7 @@ public final class RedstoneRelays implements ModInitializer {
         Blocks.register();
         BlockEntities.register();
         Items.register();
+        RelayScreenHandler.register();
 
         ServerWorldEvents.UNLOAD.register((server, world) -> {
             RelayTriggerCallback.callbacks.clear();
