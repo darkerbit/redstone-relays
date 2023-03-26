@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +23,20 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     }
 
     @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+
+        level = nbt.getInt("level");
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        nbt.putInt("level", level);
+
+        super.writeNbt(nbt);
+    }
+
+    @Override
     public void onTrigger(int num, PlayerEntity player) {
         if (num == number && player.getUuidAsString().equals(this.player) && playerInRange(player)) {
             level = 15;
@@ -29,6 +44,8 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
             BlockState state = getCachedState();
             if (state.getBlock() instanceof PulseRelayBlock block)
                 block.trigger(world, state, pos);
+
+            markDirty();
 
             if (!playSounds())
                 return;
@@ -68,6 +85,7 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
 
     public void step() {
         level--;
+        markDirty();
 
         if (!playSounds())
             return;
