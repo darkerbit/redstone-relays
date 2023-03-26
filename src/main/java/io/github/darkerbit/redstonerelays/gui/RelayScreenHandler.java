@@ -18,8 +18,7 @@ import net.minecraft.screen.slot.Slot;
 public class RelayScreenHandler extends ScreenHandler {
     public static final ScreenHandlerType<RelayScreenHandler> RELAY_SCREEN_HANDLER = new ScreenHandlerType<>(RelayScreenHandler::new, FeatureFlags.DEFAULT_SET);
 
-    public static void register()
-    {
+    public static void register() {
         Registry.register(Registries.SCREEN_HANDLER_TYPE, RedstoneRelays.identifier("relay_screen"), RELAY_SCREEN_HANDLER);
     }
 
