@@ -16,6 +16,17 @@ repositories {
 	maven {
 		url "https://maven.terraformersmc.com/releases"
 	}
+	exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
@@ -37,7 +48,8 @@ dependencies {
 	modImplementation libs.quilted.fabric.api
 	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
 
-	modLocalRuntime "com.terraformersmc:modmenu:5.0.2"
+	modLocalRuntime "com.terraformersmc:modmenu:6.1.0-rc.4"
+	modLocalRuntime "maven.modrinth:sodium:mc1.19.4-0.4.10"
 }
 
 processResources {
