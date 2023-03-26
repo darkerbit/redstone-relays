@@ -26,7 +26,6 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     public void onTrigger(int num, PlayerEntity player) {
         if (num == number && player.getUuidAsString().equals(this.player) && playerInRange(player)) {
             level = 15;
-            sync();
 
             BlockState state = getCachedState();
             if (state.getBlock() instanceof PulseRelayBlock block)
@@ -52,20 +51,6 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     @Override
     public int getRedstoneLevel() {
         return level;
-    }
-
-    @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-
-        level = tag.getInt("level");
-    }
-
-    @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
-
-        tag.putInt("level", level);
     }
 
     @Override
@@ -99,8 +84,6 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     }
 
     public void onComplete() {
-        sync();
-
         if (playSounds()) {
             world.playSound(
                     null,

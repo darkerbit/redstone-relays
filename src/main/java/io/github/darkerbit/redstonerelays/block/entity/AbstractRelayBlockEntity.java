@@ -11,19 +11,14 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
-import net.minecraft.text.component.TranslatableComponent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
         implements RelayTriggerCallback, NamedScreenHandlerFactory {
@@ -80,46 +75,6 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-
-        triggered = tag.getBoolean("triggered");
-        number = tag.getInt("number");
-        player = tag.getString("player");
-        playerName = tag.getString("playerName");
-
-        if (tag.contains("customName")) {
-            customName = Text.Serializer.fromJson(tag.getString("customName"));
-        }
-    }
-
-    @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
-
-        tag.putBoolean("triggered", triggered);
-        tag.putInt("number", number);
-        tag.putString("player", player);
-        tag.putString("playerName", playerName);
-
-        if (customName != null)
-            tag.putString("customName", Text.Serializer.toJson(customName));
-    }
-
-    @Nullable
-    @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.of(this);
-    }
-
-    @Override
-    public NbtCompound toSyncedNbt() {
-        NbtCompound tag = new NbtCompound();
-        writeNbt(tag);
-        return tag;
-    }
-
-    @Override
     public boolean copyItemDataRequiresOperator() {
         return true;
     }
@@ -161,24 +116,15 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
 
     public void setCustomName(Text customName) {
         this.customName = customName;
-        markDirty();
     }
 
     public boolean setNumber(PlayerEntity player, int number) {
         if (this.player.equals(player.getUuidAsString()) && number != this.number) {
             this.number = number;
-
-            markDirty();
-            sync();
-
             return true;
         }
 
         return false;
-    }
-
-    protected void sync() {
-        world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
     }
 
     public int getNumber() {
@@ -190,8 +136,6 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     public void setPlayer(PlayerEntity player) {
         this.player = player.getUuidAsString();
         this.playerName = player.getEntityName();
-
-        markDirty();
     }
 
     public void unregister() {
@@ -226,7 +170,6 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
             relayBlock.setTriggered(world, state, pos, triggered);
 
         this.triggered = triggered;
-        markDirty();
     }
 
     public int getRedstoneLevel() {

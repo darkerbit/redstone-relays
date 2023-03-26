@@ -89,19 +89,5 @@ public abstract class UpgradeableBlockEntity extends BlockEntity implements Inve
         items.clear();
     }
 
-    @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        Inventories.readNbt(nbt, items);
-
-        updateUpgrades();
-    }
-
-    @Override
-    public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, items);
-    }
-
     protected abstract void updateUpgrades();
 }

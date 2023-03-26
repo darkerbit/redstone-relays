@@ -69,7 +69,7 @@ public class RelayScreen extends HandledScreen<ScreenHandler> {
 
         buttonWidgets[num].active = false;
         buttonWidgets[num].unFocus();
-        setFocused(null);
+        // setFocused(null); // todo: what did this do?
 
         this.pressed = num;
     }
