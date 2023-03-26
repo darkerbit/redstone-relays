@@ -5,7 +5,7 @@
 		"0": "block/daylight_detector_side",
 		"1": "redstonerelays:block/pulse_relay_top_off",
 		"2": "redstonerelays:block/relay_misc_off",
-		"3": "redstonerelays:entity/pulse_relay_turnkey",
+		"3": "redstonerelays:block/pulse_relay_turnkey",
 		"particle": "block/daylight_detector_side"
 	},
 	"elements": [
