@@ -26,7 +26,6 @@ public abstract class UpgradeableBlockEntity extends BlockEntity implements Inve
         super.readNbt(nbt);
 
         Inventories.readNbt(nbt, items);
-        updateUpgrades();
     }
 
     @Override

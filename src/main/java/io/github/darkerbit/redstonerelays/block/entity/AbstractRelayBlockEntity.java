@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -73,6 +74,32 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     }
 
     @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+
+        triggered = nbt.getBoolean("triggered");
+        number = nbt.getInt("number");
+        player = nbt.getString("player");
+        playerName = nbt.getString("playerName");
+
+        if (nbt.contains("customName"))
+            customName = Text.Serializer.fromJson(nbt.getString("customName"));
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt) {
+        nbt.putBoolean("triggered", triggered);
+        nbt.putInt("number", number);
+        nbt.putString("player", player);
+        nbt.putString("playerName", playerName);
+
+        if (customName != null)
+            nbt.putString("customName", Text.Serializer.toJson(customName));
+
+        super.writeNbt(nbt);
+    }
+
+    @Override
     public boolean copyItemDataRequiresOperator() {
         return true;
     }
@@ -119,6 +146,8 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     public boolean setNumber(PlayerEntity player, int number) {
         if (this.player.equals(player.getUuidAsString()) && number != this.number) {
             this.number = number;
+            markDirty();
+
             return true;
         }
 
@@ -134,6 +163,8 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
     public void setPlayer(PlayerEntity player) {
         this.player = player.getUuidAsString();
         this.playerName = player.getEntityName();
+
+        markDirty();
     }
 
     public void unregister() {
@@ -168,6 +199,8 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
             relayBlock.setTriggered(world, state, pos, triggered);
 
         this.triggered = triggered;
+
+        markDirty();
     }
 
     public int getRedstoneLevel() {
