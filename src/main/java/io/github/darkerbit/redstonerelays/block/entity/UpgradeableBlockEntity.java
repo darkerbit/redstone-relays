@@ -1,6 +1,7 @@
 package io.github.darkerbit.redstonerelays.block.entity;
 
 import io.github.darkerbit.redstonerelays.item.Items;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -9,16 +10,33 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
+import org.quiltmc.qsl.block.entity.api.QuiltBlockEntity;
 
-public abstract class UpgradeableBlockEntity extends BlockEntity implements Inventory {
+public abstract class UpgradeableBlockEntity extends BlockEntity implements Inventory, QuiltBlockEntity {
     private static final int MAX_MODULES_IN_SLOT = 1;
 
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(4, ItemStack.EMPTY);
 
     public UpgradeableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.of(this);
+    }
+
+    @Override
+    public NbtCompound toSyncedNbt() {
+        // Just sync the whole thing
+        return toNbt();
     }
 
     @Override

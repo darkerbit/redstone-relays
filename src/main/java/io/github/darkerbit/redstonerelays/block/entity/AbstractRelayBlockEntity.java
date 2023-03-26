@@ -147,6 +147,7 @@ public abstract class AbstractRelayBlockEntity extends UpgradeableBlockEntity
         if (this.player.equals(player.getUuidAsString()) && number != this.number) {
             this.number = number;
             markDirty();
+            sync();
 
             return true;
         }

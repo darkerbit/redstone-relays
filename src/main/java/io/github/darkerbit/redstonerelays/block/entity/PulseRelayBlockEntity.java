@@ -46,6 +46,7 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
                 block.trigger(world, state, pos);
 
             markDirty();
+            sync();
 
             if (!playSounds())
                 return;
@@ -86,6 +87,7 @@ public class PulseRelayBlockEntity extends AbstractRelayBlockEntity {
     public void step() {
         level--;
         markDirty();
+        sync();
 
         if (!playSounds())
             return;
