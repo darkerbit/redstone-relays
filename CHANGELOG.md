@@ -1,2 +1,1 @@
-- Added link to my Twitter
-- Internal build changes
+- Sources .jar now has license headers
