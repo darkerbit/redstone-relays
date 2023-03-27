@@ -1,1 +1,1 @@
-- Sources .jar now has license headers
+Initial release on Minecraft 1.19.4
