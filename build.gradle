@@ -78,7 +78,7 @@ java {
 
 	// If this mod is going to be a library, then it should also generate Javadocs in order to aid with development.
 	// Uncomment this line to generate them.
-	// withJavadocJar()
+	withJavadocJar()
 }
 
 // If you plan to use a different file for the license, don't forget to change the file name here!
@@ -112,7 +112,7 @@ modrinth {
     //versionNumber = "1.0.0" // You don't need to set this manually. Will fail if Modrinth has this version already
     versionType = "release" // This is the default -- can also be `beta` or `alpha`
     uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
-	additionalFiles = [remapSourcesJar]
+	additionalFiles = [remapSourcesJar, javadocJar]
     //gameVersions = ["1.19.4"] // Must be an array, even with only one version
     //loaders = ["quilt"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 	changelog = rootProject.file("CHANGELOG.md").text
